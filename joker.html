@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTech AI Lab</title>
+    <!-- Assuming you have a favicon.png in your repo. -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Swapped to a more chaotic, Joker-esque font -->
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Joker's signature color palette */
+            --joker-purple: #702670;
+            --joker-green: #00FF00;
+            --dark-gotham-bg: #121212;
+        }
+
+        body {
+            /* Changed font to Creepster for a chaotic feel */
+            font-family: 'Creepster', cursive;
+            background-color: var(--dark-gotham-bg);
+            /* A gritty, textured background */
+            background-image: linear-gradient(45deg, #000000 25%, transparent 25%), linear-gradient(-45deg, #000000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000000 75%), linear-gradient(-45deg, transparent 75%, #000000 75%);
+            background-size: 20px 20px;
+            color: #f0f0f0;
+            letter-spacing: 1px;
+        }
+        
+        .main-container {
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+            /* Kept the transparency effect with a purple tint */
+            background: rgba(112, 38, 112, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            border: 1px solid rgba(112, 38, 112, 0.5);
+            box-shadow: 0 0 40px rgba(112, 38, 112, 0.4);
+        }
+
+        .header-title {
+            font-weight: 400; /* Creepster font is already bold */
+            color: #fff;
+            text-shadow: 0 0 5px #fff, 0 0 15px var(--joker-green), 0 0 25px var(--joker-green);
+        }
+
+        .header-subtitle {
+            font-family: sans-serif; /* A more readable font for the subtitle */
+            font-weight: 700;
+            background: -webkit-linear-gradient(45deg, var(--joker-purple), var(--joker-green) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .table-header th {
+            color: var(--joker-purple);
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--joker-purple);
+            text-shadow: 0 0 8px var(--joker-purple);
+        }
+
+        .table-row {
+            transition: background-color 0.2s ease-in-out;
+            font-family: sans-serif; /* More readable font for table content */
+        }
+
+        .table-row:hover {
+            background-color: rgba(0, 255, 0, 0.1);
+        }
+        
+        .table-row td {
+            border-bottom: 1px solid rgba(112, 38, 112, 0.2);
+        }
+        
+        .table-row:last-child td {
+            border-bottom: none;
+        }
+
+        .btn {
+            border: 2px solid transparent;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: sans-serif;
+            font-size: 0.875rem;
+        }
+        
+        .btn-question {
+            background-color: var(--joker-purple);
+            color: #fff;
+            box-shadow: 0 0 10px var(--joker-purple);
+        }
+        .btn-question:hover {
+            box-shadow: 0 0 25px var(--joker-purple);
+            transform: scale(1.05);
+        }
+
+        .btn-solution {
+            background-color: var(--joker-green);
+            color: #000;
+            box-shadow: 0 0 10px var(--joker-green);
+        }
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--joker-green);
+            transform: scale(1.05);
+        }
+        
+        .download-icon {
+            color: var(--joker-green);
+            transition: all 0.3s ease;
+            display: inline-block;
+            filter: drop-shadow(0 0 8px var(--joker-green));
+        }
+        .download-icon:hover {
+            color: var(--joker-purple);
+            filter: drop-shadow(0 0 20px var(--joker-purple));
+            transform: scale(1.15) translateY(2px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="main-container w-full p-6 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="header-title text-6xl md:text-7xl">MTech AI Lab</h1>
+            <p class="header-subtitle text-xl font-bold mt-2 tracking-wider">Why So Serious?</p>
+        </header>
+
+        <main class="overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="px-5 py-3">Lab ID</th>
+                            <th class="px-5 py-3">Date</th>
+                            <th class="px-5 py-3 text-center">Question</th>
+                            <th class="px-5 py-3 text-center">Solution</th>
+                            <th class="px-5 py-3 text-center">Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Lab Row 1 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_01</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">12-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        <!-- Lab Row 2 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_02</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">19-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                         <!-- Lab Row 3 -->
+                         <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_03</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">26-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        <!-- Lab Row 4 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_04</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">02-09-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        <!-- Lab Row 5 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_05</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">09-09-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        
+        <footer class="text-center mt-8 pt-6">
+            <p class="text-gray-500 text-sm">&copy; 2025 MTech AI Program. All Rights Reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
+
