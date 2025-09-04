@@ -22,9 +22,13 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            /* Grungy, textured background */
+            /* New dynamic background for a better glass effect */
             background-color: var(--deadpool-black);
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23222' fill-opacity='0.4'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-image: 
+                radial-gradient(circle at 100% 100%, rgba(208, 0, 0, 0.3), transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(208, 0, 0, 0.2), transparent 50%);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
             color: var(--off-white);
         }
         
@@ -32,13 +36,13 @@
             max-width: 56rem; 
             margin-left: auto;
             margin-right: auto;
-            /* A sketchy, hand-drawn look */
-            background: rgba(10, 10, 10, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 3px solid var(--deadpool-red);
-            border-radius: 15px 2px 15px 2px;
-            box-shadow: 0 0 20px rgba(208, 0, 0, 0.5);
+            /* Creative "Blood-Splatter" Glassmorphism Effect */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 25px rgba(208, 0, 0, 0.6);
         }
 
         .header-title {
@@ -52,7 +56,6 @@
         .header-subtitle {
             font-weight: 700;
             color: #ccc;
-            transform: rotate(-1deg); /* A little chaotic tilt */
         }
 
         .table-header th {
@@ -60,7 +63,7 @@
             letter-spacing: 2px;
             color: var(--deadpool-red);
             font-size: 1.5rem;
-            border-bottom: 3px solid var(--deadpool-red);
+            border-bottom: 2px solid var(--deadpool-red);
         }
 
         .table-row {
@@ -68,11 +71,11 @@
         }
 
         .table-row:hover {
-            background-color: rgba(208, 0, 0, 0.1);
+            background-color: rgba(208, 0, 0, 0.15);
         }
         
         .table-row td {
-            border-bottom: 1px dashed rgba(208, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(208, 0, 0, 0.2);
         }
         
         .table-row:last-child td {
@@ -95,6 +98,7 @@
         .btn-question:hover {
             transform: translateY(-3px);
             background-color: #ff1a1a;
+            box-shadow: 0 0 15px #ff1a1a;
         }
 
         .btn-solution {
@@ -106,16 +110,18 @@
             transform: translateY(-3px);
             background-color: var(--deadpool-red);
             color: var(--deadpool-black);
+            box-shadow: 0 0 15px var(--deadpool-red);
         }
         
         .download-icon {
-            color: #888;
+            color: #aaa;
             transition: all 0.3s ease;
             display: inline-block;
         }
         .download-icon:hover {
             color: var(--deadpool-red);
             transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 5px var(--deadpool-red));
         }
 
         /* Floating action button - Deadpool Mask */
@@ -151,7 +157,7 @@
             <circle cx="50" cy="50" r="48" fill="#D00000"/>
             <path d="M50 2C23.49 2 2 23.49 2 50s21.49 48 48 48 48-21.49 48-48S76.51 2 50 2z" fill="#D00000" stroke="#1A1A1A" stroke-width="4"/>
             <path d="M69 31.5c0 10.5-8.5 19-19 19s-19-8.5-19-19c0-1.99 1.5-3.5 1.5-3.5s8-7.5 17.5-7.5 17.5 7.5 17.5 7.5s1.5 1.51 1.5 3.5z" fill="#1A1A1A"/>
-            <path d="M31 68.5c0-10.5 8.5-19 19-19s19 8.5 19 19c0 1.99-1.5 3.5-1.5 3.5s-8 7.5-17.5 7.5-17.5-7.5-17.5-7.5-1.5-1.51-1.5-3.5z" fill="#1A1A1A"/>
+            <path d="M31 68.5c0-10.5 8.5-19 19-19s19 8.5 19 19c0 1.99-1.5 3.5-1.5 3.5s-8 7.5-17.5-7.5-17.5-7.5-17.5-7.5-1.5-1.51-1.5-3.5z" fill="#1A1A1A"/>
             <path d="M69.5 32c-1.33 4-4.83 7-9 7s-7.67-3-9-7H31s1.33 13.17 19 13.17S69.5 32 69.5 32z" fill="white"/>
             <path d="M30.5 68c1.33-4 4.83-7 9-7s7.67 3 9 7h20.5s-1.33-13.17-19-13.17-19.5 13.17-19.5 13.17z" fill="white"/>
         </svg>
@@ -179,7 +185,7 @@
                         <!-- Lab Row 1 -->
                         <tr class="table-row">
                             <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_01</td>
-                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">19-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">12-08-2025</td>
                             <td class="px-5 py-4 whitespace-nowrap text-center">
                                 <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
                             </td>
@@ -197,15 +203,15 @@
                         <!-- Lab Row 2 -->
                         <tr class="table-row">
                             <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_02</td>
-                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">26-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">19-08-2025</td>
                             <td class="px-5 py-4 whitespace-nowrap text-center">
-                                <a href="./lab3.html" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
                             </td>
                             <td class="px-5 py-4 whitespace-nowrap text-center">
-                                <a href="./l3s.html" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
                             </td>
                             <td class="px-5 py-4 whitespace-nowrap text-center">
-                                <a href="./lab3.docx" download class="download-icon">
+                                <a href="#" download class="download-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="currentColor" viewBox="0 0 24 24">
                                       <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zm-1 3v4H8l4 4 4-4h-3V7h-2z" />
                                     </svg>
@@ -215,12 +221,12 @@
                          <!-- Lab Row 3 -->
                          <tr class="table-row">
                             <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_03</td>
-                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">02-09-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">26-08-2025</td>
                             <td class="px-5 py-4 whitespace-nowrap text-center">
-                                <a href="./lab4.html" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
                             </td>
                             <td class="px-5 py-4 whitespace-nowrap text-center">
-                                <a href="./l4s.html" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
                             </td>
                             <td class="px-5 py-4 whitespace-nowrap text-center">
                                 <a href="#" download class="download-icon">
@@ -236,7 +242,7 @@
         </main>
         
         <footer class="text-center mt-8 pt-6">
-            <p class="text-gray-500 text-sm font-bold">&copy; 2025 MTech AI Program.</p>
+            <p class="text-gray-500 text-sm font-bold">&copy; 2025 MTech AI Program. Please don't sue us.</p>
         </footer>
     </div>
 </body>
