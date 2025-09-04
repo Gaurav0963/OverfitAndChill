@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Lab: Python Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        pre {
+            background-color: #1f2937; /* gray-800 */
+            color: #d1d5db; /* gray-300 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900">AI Lab: Full Python Solutions</h1>
+            <p class="text-lg text-gray-600 mt-2">
+                <!-- This link assumes the main page is named ai_lab_main_v2.html -->
+                <a href="./ai_lab_main_v2.html" class="text-indigo-600 hover:underline">&larr; Back to Questions</a>
+            </p>
+        </header>
+
+        <main class="space-y-8">
+            <!-- BFS Solutions -->
+            <div>
+                <h2 class="text-3xl font-bold mb-4 border-l-4 border-indigo-500 pl-4">BFS Solutions</h2>
+                <div class="space-y-6">
+                    <!-- Solution 1 -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">1. Implement Breadth-First Search</h3>
+                        <pre><code class="language-python">
+import collections
+
+def bfs(graph, start_node):
+    """
+    Performs BFS on a graph represented as an adjacency list.
+    
+    Args:
+        graph (dict): The graph as an adjacency list.
+        start_node: The node to start the traversal from.
+        
+    Returns:
+        list: A list of nodes in the order they were visited.
+    """
+    if start_node not in graph:
+        return []
+
+    visited = set()
+    queue = collections.deque([start_node])
+    visited.add(start_node)
+    traversal_order = []
+
+    while queue:
+        # Dequeue a vertex from the front of the queue
+        current_node = queue.popleft()
+        traversal_order.append(current_node)
+
+        # Get all adjacent vertices of the dequeued vertex.
+        # If an adjacent has not been visited, then mark it
+        # visited and enqueue it.
+        for neighbor in graph.get(current_node, []):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+    
+    return traversal_order
+
+# Example Usage:
+graph = {'A': ['B', 'C'], 'B': ['A', 'D', 'E'], 'C': ['A', 'F'], 'D': ['B'], 'E': ['B', 'F'], 'F': ['C', 'E']}
+print(f"BFS Traversal: {bfs(graph, 'A')}") 
+# Expected Output: ['A', 'B', 'C', 'D', 'E', 'F']
+                        </code></pre>
+                    </div>
+                    <!-- Solution 2 -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">2. Shortest Path in a Grid</h3>
+                        <pre><code class="language-python">
+import collections
+
+def shortest_path_grid(grid):
+    """
+    Finds the shortest path in a binary grid from (0,0) to (n-1, n-1).
+    """
+    n = len(grid)
+    # If start or end is an obstacle, no path is possible.
+    if grid[0][0] == 1 or grid[n-1][n-1] == 1:
+        return -1
+
+    # 8 possible directions
+    directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+    
+    # Queue stores (row, col, path_length)
+    queue = collections.deque([(0, 0, 1)])
+    visited = set([(0, 0)])
+
+    while queue:
+        row, col, length = queue.popleft()
+
+        # If we reached the destination
+        if row == n - 1 and col == n - 1:
+            return length
+
+        for dr, dc in directions:
+            new_row, new_col = row + dr, col + dc
+
+            # Check if the new position is valid
+            if (0 <= new_row < n and 
+                0 <= new_col < n and 
+                grid[new_row][new_col] == 0 and 
+                (new_row, new_col) not in visited):
+                
+                visited.add((new_row, new_col))
+                queue.append((new_row, new_col, length + 1))
+    
+    # If the queue becomes empty and we haven't reached the end
+    return -1
+
+# Example Usage:
+grid = [[0,0,0],[1,1,0],[1,1,0]]
+print(f"Shortest Path Length: {shortest_path_grid(grid)}")
+# Expected Output: 4
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DFS Solutions -->
+            <div>
+                <h2 class="text-3xl font-bold mb-4 border-l-4 border-indigo-500 pl-4">DFS Solutions</h2>
+                <div class="space-y-6">
+                    <!-- Solution 3 -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">3. Implement Depth-First Search</h3>
+                        <pre><code class="language-python">
+def dfs(graph, start_node):
+    """
+    Performs DFS on a graph using recursion.
+    """
+    if start_node not in graph:
+        return []
+
+    visited = set()
+    traversal_order = []
+
+    def _dfs_recursive(node):
+        # If node is already visited, do nothing
+        if node in visited:
+            return
+        
+        # Mark the current node as visited and add to result
+        visited.add(node)
+        traversal_order.append(node)
+        
+        # Recur for all the vertices adjacent to this vertex
+        for neighbor in graph.get(node, []):
+            _dfs_recursive(neighbor)
+
+    _dfs_recursive(start_node)
+    return traversal_order
+
+# Example Usage:
+graph = {'A': ['B', 'C'], 'B': ['A', 'D', 'E'], 'C': ['A', 'F'], 'D': ['B'], 'E': ['B', 'F'], 'F': ['C', 'E']}
+print(f"DFS Traversal: {dfs(graph, 'A')}")
+# Expected Output: ['A', 'B', 'D', 'E', 'F', 'C'] (Note: Order can vary)
+                        </code></pre>
+                    </div>
+                    <!-- Solution 4 -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">4. Connected Components in a Network</h3>
+                        <pre><code class="language-python">
+def count_components(isConnected):
+    """
+    Counts the number of connected components in a network
+    represented by an adjacency matrix.
+    """
+    n = len(isConnected)
+    visited = set()
+    component_count = 0
+
+    def _dfs(start_node):
+        # Use a stack for iterative DFS to avoid recursion depth issues
+        stack = [start_node]
+        while stack:
+            node = stack.pop()
+            # Find all connected neighbors
+            for neighbor in range(n):
+                if isConnected[node][neighbor] == 1 and neighbor not in visited:
+                    visited.add(neighbor)
+                    stack.append(neighbor)
+
+    # Iterate through all computers
+    for i in range(n):
+        # If we find a computer that hasn't been visited,
+        # it's the start of a new component.
+        if i not in visited:
+            component_count += 1
+            visited.add(i)
+            # Start DFS to find all computers in this component
+            _dfs(i)
+            
+    return component_count
+
+# Example Usage:
+isConnected = [[1,1,0],[1,1,0],[0,0,1]]
+print(f"Number of Components: {count_components(isConnected)}")
+# Expected Output: 2
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Analysis Solution -->
+            <div>
+                <h2 class="text-3xl font-bold mb-4 border-l-4 border-indigo-500 pl-4">Data Analysis Solution</h2>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-2">5. Analysis of the Iris Dataset</h3>
+                    <pre><code class="language-python">
+import pandas as pd
+
+def analyze_iris():
+    """
+    Performs the requested analysis on the Iris dataset.
+    """
+    try:
+        # 1. Load Data
+        url = 'https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv'
+        df = pd.read_csv(url)
+        print("--- 1. Data Loaded Successfully (First 5 Rows) ---")
+        print(df.head())
+        print("\\n" + "="*50 + "\\n")
+
+        # 2. Grouped Analysis
+        print("--- 2. Average Petal Length by Species ---")
+        avg_petal_length = df.groupby('species')['petal_length'].mean()
+        print(avg_petal_length)
+        print("\\n" + "="*50 + "\\n")
+
+        # 3. Filtering
+        print("--- 3. Virginica Species with Sepal Width > 3.5 ---")
+        filtered_df = df[(df['species'] == 'virginica') & (df['sepal_width'] > 3.5)]
+        print(filtered_df)
+        
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Run the analysis
+analyze_iris()
+                    </code></pre>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Lab 4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        pre {
+            background-color: #1f2937; /* gray-800 */
+            color: #d1d5db; /* gray-300 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .graph-image {
+            max-width: 250px;
+            margin: 1rem auto;
+            display: block;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900">AI Lab</h1>
+            <p class="text-lg text-gray-600 mt-2">Build & Test Your Algorithm Skills</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="flex justify-center border-b border-gray-300 mb-8">
+            <button id="questions-btn" class="py-4 px-6 text-lg font-semibold text-indigo-600 border-b-2 border-indigo-600 focus:outline-none">Questions</button>
+            <button id="approach-btn" class="py-4 px-6 text-lg font-semibold text-gray-500 focus:outline-none">Approach</button>
+        </div>
+
+        <!-- Questions Page -->
+        <main id="questions-view">
+            <div class="space-y-8">
+                <!-- BFS Section -->
+                <div>
+                    <h2 class="text-3xl font-bold mb-4 border-l-4 border-indigo-500 pl-4">BFS Questions</h2>
+                    <div class="space-y-6">
+                        <div class="card bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-semibold mb-2">Implement Breadth-First Search</h3>
+                            <p class="text-gray-700 mb-4">Write a Python function `bfs(graph, start_node)` that performs a Breadth-First Search on a given graph. The graph is represented as an adjacency list (a dictionary where keys are nodes and values are lists of their neighbors). The function should return a list of nodes in the order they were visited.</p>
+                            <p class="text-gray-700 font-medium mt-4">Visual Example:</p>
+                            <img src="https://raw.githubusercontent.com/Gaurav0963/traversal/main/bfs.png" alt="Simple undirected graph for traversal examples" class="graph-image" onerror="this.onerror=null;this.src='https://placehold.co/250x200/e2e8f0/4a5568?text=Graph+Visual';">
+                            <pre><code># For the graph above:
+graph = {
+  'A': ['B', 'C'], 'B': ['A', 'D', 'E'],
+  'C': ['A', 'F'], 'D': ['B'],
+  'E': ['B', 'F'], 'F': ['C', 'E']
+}
+# Starting at node 'A'
+Input: graph, 'A'
+Output: ['A', 'B', 'C', 'D', 'E', 'F']</code></pre>
+                             <p class="text-gray-600 text-sm mt-2">The traversal explores level by level: A, then B and C, then D, E, and F.</p>
+                        </div>
+                        <div class="card bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-semibold mb-2">Shortest Path in a Grid</h3>
+                            <p class="text-gray-700 mb-4">You are given an `n x n` binary grid. A `0` represents an open path, and a `1` represents an obstacle. Find the length of the shortest clear path from the top-left cell `(0, 0)` to the bottom-right cell `(n-1, n-1)`. A clear path can move in 8 directions (horizontally, vertically, and diagonally). If no such path exists, return -1.</p>
+                            <p class="text-gray-700 font-medium">Example:</p>
+                            <pre><code>Input: grid = [[0,0,0],[1,1,0],[1,1,0]]
+Output: 4</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DFS Section -->
+                <div>
+                    <h2 class="text-3xl font-bold mb-4 border-l-4 border-indigo-500 pl-4">DFS Questions</h2>
+                    <div class="space-y-6">
+                        <div class="card bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-semibold mb-2">Implement Depth-First Search</h3>
+                            <p class="text-gray-700 mb-4">Write a Python function `dfs(graph, start_node)` that performs a Depth-First Search on a given graph. The graph is represented as an adjacency list. The function should return a list of nodes in the order they were visited. You can implement this recursively or iteratively.</p>
+                             <p class="text-gray-700 font-medium mt-4">Visual Example:</p>
+                             <img src="https://raw.githubusercontent.com/Gaurav0963/traversal/main/dfs.png" alt="Simple undirected graph for traversal examples" class="graph-image" onerror="this.onerror=null;this.src='https://placehold.co/250x200/e2e8f0/4a5568?text=Graph+Visual';">
+                            <pre><code># Using the same graph as before:
+graph = {
+  'A': ['B', 'C'], 'B': ['A', 'D', 'E'],
+  'C': ['A', 'F'], 'D': ['B'],
+  'E': ['B', 'F'], 'F': ['C', 'E']
+}
+# Starting at node 'A'
+Input: graph, 'A'
+Output: ['A', 'B', 'D', 'E', 'F', 'C']</code></pre>
+                            <p class="text-gray-600 text-sm mt-2">Note: Other valid DFS paths exist. This one explores A -> B -> D, then backtracks to B and explores B -> E -> F, then backtracks to A and explores A -> C.</p>
+                        </div>
+                        <div class="card bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-semibold mb-2">Connected Components in a Network</h3>
+                            <p class="text-gray-700 mb-4">You are given a network of computers represented by an adjacency matrix `isConnected`. If `isConnected[i][j] == 1`, then the `i-th` and `j-th` computers are directly connected. A group of directly or indirectly connected computers is a "component". Return the total number of connected components in the network.</p>
+                             <p class="text-gray-700 font-medium">Example:</p>
+                            <pre><code>Input: isConnected = [[1,1,0],[1,1,0],[0,0,1]]
+Output: 2</code></pre>
+                        </div>
+                    </div>
+                </div>
+                 <!-- Pandas/EDA Section -->
+                <div>
+                    <h2 class="text-3xl font-bold mb-4 border-l-4 border-indigo-500 pl-4">Data Analysis Question</h2>
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">Analysis of the Iris Dataset</h3>
+                        <p class="text-gray-700 mb-4">Using a data analysis library like Pandas in Python, perform the following tasks on the Iris dataset.</p>
+                        <div class="text-gray-700 space-y-2">
+                            <p><strong>1. Load Data:</strong> Load the Iris dataset from this URL: <code class="text-sm bg-gray-200 p-1 rounded">'https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv'</code></p>
+                            <p><strong>2. Grouped Analysis:</strong> Group the data by the 'species' column. For each species, calculate and display the average `petal_length`.</p>
+                            <p><strong>3. Filtering:</strong> Create a new DataFrame that contains only the `virginica` species whose `sepal_width` is greater than 3.5. Display this new DataFrame.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <a href="./labsolu.html" target="_blank" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors">
+                    View Full Python Solutions
+                </a>
+            </div>
+        </main>
+
+        <!-- Approach Page (Initially Hidden) -->
+        <main id="approach-view" class="hidden">
+            <div class="space-y-8">
+                <!-- BFS Approaches -->
+                <div>
+                    <h2 class="text-3xl font-bold mb-4 border-l-4 border-green-500 pl-4">BFS Approaches</h2>
+                    <div class="space-y-6">
+                        <div class="card bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-semibold mb-2">Approach for Implementing BFS</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>Use a **queue** data structure (like `collections.deque` in Python) to keep track of nodes to visit.</li>
+                                <li>Use a **set** called `visited` to store nodes that have already been visited to avoid cycles and redundant processing.</li>
+                                <li>Add the `start_node` to the queue and the `visited` set.</li>
+                                <li>Loop while the queue is not empty. In each iteration, dequeue a node.</li>
+                                <li>Process the dequeued node (e.g., add it to your result list).</li>
+                                <li>Iterate through its neighbors. If a neighbor has not been visited, add it to the `visited` set and enqueue it.</li>
+                            </ul>
+                        </div>
+                        <div class="card bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-semibold mb-2">Approach for Shortest Path in a Grid</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>This is a shortest path problem on an unweighted graph, so BFS is the perfect tool.</li>
+                                <li>The "nodes" are the grid cells `(row, col)`.</li>
+                                <li>The queue should store tuples of `(row, col, path_length)`.</li>
+                                <li>Start the queue with `(0, 0, 1)`. Use a `visited` set or modify the grid in-place to mark visited cells.</li>
+                                <li>In the BFS loop, dequeue a cell. If it's the destination `(n-1, n-1)`, return its `path_length`.</li>
+                                <li>Explore all 8 neighbors. For each valid neighbor (within bounds, not an obstacle, and not visited), add it to the queue with `path_length + 1` and mark it as visited.</li>
+                                <li>Handle edge cases: if the start or end cell is an obstacle, no path is possible.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DFS Approaches -->
+                <div>
+                    <h2 class="text-3xl font-bold mb-4 border-l-4 border-green-500 pl-4">DFS Approaches</h2>
+                    <div class="space-y-6">
+                        <div class="card bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-semibold mb-2">Approach for Implementing DFS (Recursive)</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>Use a **set** `visited` to track visited nodes across recursive calls.</li>
+                                <li>Create a helper function, e.g., `_dfs(node)`.</li>
+                                <li>Inside the helper, first check if the current `node` is already in `visited`. If so, return.</li>
+                                <li>Add the current `node` to the `visited` set and process it (add to result list).</li>
+                                <li>Iterate through the neighbors of the current `node` and make a recursive call `_dfs(neighbor)` for each one.</li>
+                                <li>Start the process by calling the helper function with the `start_node`.</li>
+                            </ul>
+                        </div>
+                        <div class="card bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-semibold mb-2">Approach for Connected Components</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li>The goal is to count how many distinct, separate groups of computers exist.</li>
+                                <li>Initialize a `component_count` to 0 and a `visited` set to keep track of computers you've already assigned to a component.</li>
+                                <li>Loop through each computer from `0` to `n-1`.</li>
+                                <li>If the current computer `i` has **not** been visited, it means you've found a new component. Increment `component_count`.</li>
+                                <li>Start a traversal (DFS or BFS) from computer `i`. This traversal will find and mark all other computers connected to `i` by adding them to the `visited` set.</li>
+                                <li>Once the traversal is complete, the loop continues, looking for the next unvisited computer.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                 <!-- EDA Approach -->
+                <div>
+                    <h2 class="text-3xl font-bold mb-4 border-l-4 border-green-500 pl-4">Data Analysis Approach</h2>
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">Approach for Iris Dataset Analysis</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong>Load Data:</strong> Use the `pandas.read_csv()` function to load the data from the provided URL into a DataFrame.</li>
+                            <li><strong>Grouped Analysis:</strong> Use the `.groupby('species')` method on the DataFrame. Then, select the `petal_length` column and apply the `.mean()` aggregation function.</li>
+                            <li><strong>Filtering:</strong> Use boolean indexing. Create two conditions: `df['species'] == 'virginica'` and `df['sepal_width'] > 3.5`. Combine these conditions with the `&` (and) operator inside the DataFrame's square brackets `df[...]` to select the desired rows.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // JavaScript to handle tab switching
+        const questionsBtn = document.getElementById('questions-btn');
+        const approachBtn = document.getElementById('approach-btn');
+        const questionsView = document.getElementById('questions-view');
+        const approachView = document.getElementById('approach-view');
+
+        questionsBtn.addEventListener('click', () => {
+            questionsView.classList.remove('hidden');
+            approachView.classList.add('hidden');
+            
+            questionsBtn.classList.add('text-indigo-600', 'border-indigo-600');
+            questionsBtn.classList.remove('text-gray-500');
+            
+            approachBtn.classList.add('text-gray-500');
+            approachBtn.classList.remove('text-indigo-600', 'border-indigo-600');
+        });
+
+        approachBtn.addEventListener('click', () => {
+            approachView.classList.remove('hidden');
+            questionsView.classList.add('hidden');
+
+            approachBtn.classList.add('text-indigo-600', 'border-indigo-600');
+            approachBtn.classList.remove('text-gray-500');
+
+            questionsBtn.classList.add('text-gray-500');
+            questionsBtn.classList.remove('text-indigo-600', 'border-indigo-600');
+        });
+    </script>
+
+</body>
+</html>
