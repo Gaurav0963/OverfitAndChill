@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incredible Content Incoming!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Bangers', cursive;
+            background-color: #1a202c;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hulk-green-text {
+            color: #48bb78;
+        }
+
+        .hulk-purple-bg {
+            background-color: #44337a;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 5px #48bb78, 0 0 10px #48bb78, 0 0 20px #48bb78, 0 0 40px #1a202c;
+        }
+        
+        .gamma-pulse {
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                text-shadow: 0 0 5px #48bb78, 0 0 10px #48bb78, 0 0 20px #48bb78, 0 0 40px #1a202c;
+            }
+            50% {
+                transform: scale(1.05);
+                text-shadow: 0 0 10px #68d391, 0 0 20px #68d391, 0 0 30px #68d391, 0 0 50px #1a202c;
+            }
+        }
+
+        .crack {
+            position: absolute;
+            background: #1a202c;
+            box-shadow: 0 0 2px 1px #1a202c;
+            border-radius: 50%;
+        }
+
+        .crack-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen text-white p-4">
+
+    <!-- Crack Effect Background -->
+    <div id="crack-container" class="crack-container"></div>
+    
+    <div class="text-center z-10">
+        <h1 class="text-6xl md:text-8xl lg:text-9xl hulk-green-text text-glow gamma-pulse" style="letter-spacing: 0.1em;">
+            OOPS... 404!
+        </h1>
+        <div class="my-8 transform -rotate-3">
+            <div class="bg-gray-200 text-gray-800 p-6 rounded-lg border-4 border-gray-800 shadow-2xl inline-block max-w-lg">
+                <h2 class="text-3xl md:text-5xl text-black">
+                   THIS PAGE WILL BE UPDATED SOON!
+                </h2>
+            </div>
+        </div>
+        <p class="text-2xl md:text-4xl text-gray-400" style="letter-spacing: 0.05em;">
+            I MIGHT'VE MISPLACED YOUR FIRST ASSIGNMENT.
+        </p>
+         <p class="text-2xl md:text-3xl text-gray-400" style="letter-spacing: 0.05em;">
+            DO NOT WORRY...
+        </p>
+    </div>
+
+    <script>
+        // JS to generate a cool crack effect
+        const container = document.getElementById('crack-container');
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        function createCrack(x, y, length, angle, depth) {
+            if (depth <= 0) return;
+
+            const segmentLength = Math.random() * (length / 5) + (length / 10);
+            let currentX = x;
+            let currentY = y;
+
+            for (let i = 0; i < length; i += segmentLength) {
+                const crackSegment = document.createElement('div');
+                crackSegment.className = 'crack';
+                
+                const width = Math.max(1, (depth / 2) * Math.random() + 1);
+                crackSegment.style.width = `${width}px`;
+                crackSegment.style.height = `${width * 1.5}px`;
+                
+                currentX += Math.cos(angle) * segmentLength;
+                currentY += Math.sin(angle) * segmentLength;
+                
+                crackSegment.style.left = `${currentX}px`;
+                crackSegment.style.top = `${currentY}px`;
+                crackSegment.style.transform = `rotate(${angle + Math.PI / 2}rad)`;
+
+                container.appendChild(crackSegment);
+
+                // Chance to branch
+                if (Math.random() < 0.1 && depth > 1) {
+                    const branchAngle = angle + (Math.random() - 0.5) * (Math.PI / 2);
+                    createCrack(currentX, currentY, length * 0.6, branchAngle, depth - 1);
+                }
+
+                // slightly alter angle for next segment
+                angle += (Math.random() - 0.5) * 0.4;
+            }
+        }
+
+        // Create multiple cracks originating from the center
+        const numCracks = 7;
+        for (let i = 0; i < numCracks; i++) {
+             const startAngle = (i / numCracks) * 2 * Math.PI;
+             const startLength = Math.random() * (Math.max(window.innerWidth, window.innerHeight) / 3) + 150;
+             createCrack(centerX, centerY, startLength, startAngle, 4);
+        }
+    </script>
+
+</body>
+</html>
+```
