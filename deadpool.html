@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTech AI Lab</title>
+    <!-- Assuming you have a favicon.png in your repo. -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- A chaotic, comic-book font for the Deadpool theme -->
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Deadpool's color palette */
+            --deadpool-red: #d00000;
+            --deadpool-black: #1a1a1a;
+            --off-white: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            /* Grungy, textured background */
+            background-color: var(--deadpool-black);
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23222' fill-opacity='0.4'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            color: var(--off-white);
+        }
+        
+        .main-container {
+            max-width: 56rem; 
+            margin-left: auto;
+            margin-right: auto;
+            /* A sketchy, hand-drawn look */
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 3px solid var(--deadpool-red);
+            border-radius: 15px 2px 15px 2px;
+            box-shadow: 0 0 20px rgba(208, 0, 0, 0.5);
+        }
+
+        .header-title {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 3px;
+            font-weight: 400;
+            color: var(--deadpool-red);
+            text-shadow: 2px 2px 0 var(--deadpool-black), -2px -2px 0 var(--deadpool-black), -2px 2px 0 var(--deadpool-black), 2px -2px 0 var(--deadpool-black);
+        }
+
+        .header-subtitle {
+            font-weight: 700;
+            color: #ccc;
+            transform: rotate(-1deg); /* A little chaotic tilt */
+        }
+
+        .table-header th {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 2px;
+            color: var(--deadpool-red);
+            font-size: 1.5rem;
+            border-bottom: 3px solid var(--deadpool-red);
+        }
+
+        .table-row {
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .table-row:hover {
+            background-color: rgba(208, 0, 0, 0.1);
+        }
+        
+        .table-row td {
+            border-bottom: 1px dashed rgba(208, 0, 0, 0.3);
+        }
+        
+        .table-row:last-child td {
+            border-bottom: none;
+        }
+
+        .btn {
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.875rem;
+            border: 2px solid var(--deadpool-black);
+        }
+        
+        .btn-question {
+            background-color: var(--deadpool-red);
+            color: var(--deadpool-black);
+        }
+        .btn-question:hover {
+            transform: translateY(-3px);
+            background-color: #ff1a1a;
+        }
+
+        .btn-solution {
+            background-color: var(--deadpool-black);
+            color: var(--deadpool-red);
+            border-color: var(--deadpool-red);
+        }
+        .btn-solution:hover {
+            transform: translateY(-3px);
+            background-color: var(--deadpool-red);
+            color: var(--deadpool-black);
+        }
+        
+        .download-icon {
+            color: #888;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .download-icon:hover {
+            color: var(--deadpool-red);
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* Floating action button - Deadpool Mask */
+        .attendance-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background-color: var(--deadpool-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(208, 0, 0, 0.7);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .attendance-fab:hover {
+            transform: scale(1.1) rotate(-15deg);
+        }
+        .deadpool-mask {
+            width: 40px;
+            height: 40px;
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <!-- View Attendance Floating Button -->
+    <a href="https://docs.google.com/spreadsheets/d/1mixq5GHgJWZVnvY5TdM39tDDS0zAFolvUJtYwMW6mDo/edit?usp=sharing" class="attendance-fab" title="View Attendance... or don't. I'm not your mom.">
+        <svg class="deadpool-mask" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="48" fill="#D00000"/>
+            <path d="M50 2C23.49 2 2 23.49 2 50s21.49 48 48 48 48-21.49 48-48S76.51 2 50 2z" fill="#D00000" stroke="#1A1A1A" stroke-width="4"/>
+            <path d="M69 31.5c0 10.5-8.5 19-19 19s-19-8.5-19-19c0-1.99 1.5-3.5 1.5-3.5s8-7.5 17.5-7.5 17.5 7.5 17.5 7.5s1.5 1.51 1.5 3.5z" fill="#1A1A1A"/>
+            <path d="M31 68.5c0-10.5 8.5-19 19-19s19 8.5 19 19c0 1.99-1.5 3.5-1.5 3.5s-8 7.5-17.5 7.5-17.5-7.5-17.5-7.5-1.5-1.51-1.5-3.5z" fill="#1A1A1A"/>
+            <path d="M69.5 32c-1.33 4-4.83 7-9 7s-7.67-3-9-7H31s1.33 13.17 19 13.17S69.5 32 69.5 32z" fill="white"/>
+            <path d="M30.5 68c1.33-4 4.83-7 9-7s7.67 3 9 7h20.5s-1.33-13.17-19-13.17-19.5 13.17-19.5 13.17z" fill="white"/>
+        </svg>
+    </a>
+
+    <div class="main-container w-full p-6 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="header-title text-5xl md:text-6xl">MTech AI Lab</h1>
+            <p class="header-subtitle text-lg font-bold mt-2 tracking-wider">AI with Maximum Effort!</p>
+        </header>
+
+        <main class="overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="px-5 py-3">Mission</th>
+                            <th class="px-5 py-3">Deadline</th>
+                            <th class="px-5 py-3 text-center">The Intel</th>
+                            <th class="px-5 py-3 text-center">The Debrief</th>
+                            <th class="px-5 py-3 text-center">The Loot</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Lab Row 1 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_01</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">12-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zm-1 3v4H8l4 4 4-4h-3V7h-2z" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        <!-- Lab Row 2 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_02</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">19-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zm-1 3v4H8l4 4 4-4h-3V7h-2z" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                         <!-- Lab Row 3 -->
+                         <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_03</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">26-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zm-1 3v4H8l4 4 4-4h-3V7h-2z" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        
+        <footer class="text-center mt-8 pt-6">
+            <p class="text-gray-500 text-sm font-bold">&copy; 2025 MTech AI Program.</p>
+        </footer>
+    </div>
+</body>
+</html>
+
