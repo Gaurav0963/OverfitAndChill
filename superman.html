@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTech AI Lab</title>
+    <!-- Assuming you have a favicon.png in your repo. -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- A heroic, bold font for the Superman theme -->
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Superman's iconic color palette */
+            --super-blue: #005c9b;
+            --super-red: #e62429;
+            --super-yellow: #f9d71c;
+            --sky-blue: #87CEEB;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            /* A bright, sky-like gradient background */
+            background: linear-gradient(to top, #d3e5f2, var(--sky-blue));
+            color: #1a1a1a;
+        }
+        
+        .main-container {
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+            /* A crystal-like effect, reminiscent of the Fortress of Solitude */
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .header-title {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 4px;
+            font-weight: 400;
+            color: var(--super-red);
+            text-shadow: 3px 3px 0 var(--super-blue), -1px -1px 0 var(--super-blue), 1px -1px 0 var(--super-blue), -1px 1px 0 var(--super-blue), 1px 1px 0 var(--super-blue);
+        }
+
+        .header-subtitle {
+            font-weight: 700;
+            color: var(--super-blue);
+        }
+
+        .table-header th {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 2px;
+            color: var(--super-blue);
+            font-size: 1.5rem;
+            border-bottom: 3px solid var(--super-red);
+        }
+
+        .table-row {
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .table-row:hover {
+            background-color: rgba(249, 215, 28, 0.2); /* Faint yellow glow */
+        }
+        
+        .table-row td {
+            border-bottom: 1px solid rgba(0, 92, 155, 0.2);
+        }
+        
+        .table-row:last-child td {
+            border-bottom: none;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.875rem;
+            color: #fff;
+        }
+        
+        .btn-question {
+            background-color: var(--super-blue);
+            box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+        }
+        .btn-question:hover {
+            background-color: #0070ba;
+            transform: translateY(-2px);
+        }
+
+        .btn-solution {
+            background-color: var(--super-red);
+            box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+        }
+        .btn-solution:hover {
+            background-color: #ff3e42;
+            transform: translateY(-2px);
+        }
+        
+        .download-icon {
+            color: var(--super-blue);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .download-icon:hover {
+            color: var(--super-red);
+            transform: scale(1.2);
+        }
+
+        /* Floating action button for attendance */
+        .attendance-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background-color: var(--super-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .attendance-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        .super-s {
+            font-family: 'Bangers', cursive;
+            font-size: 2.5rem;
+            line-height: 1;
+            color: var(--super-yellow);
+            text-shadow: 2px 2px 0 var(--super-blue);
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <!-- View Attendance Floating Button -->
+    <a href="#" class="attendance-fab" title="View Attendance">
+        <span class="super-s">S</span>
+    </a>
+
+    <div class="main-container w-full p-6 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="header-title text-6xl md:text-7xl">MTech AI Lab</h1>
+            <p class="header-subtitle text-xl font-bold mt-2 tracking-wider">Truth, Justice, and the AI Way</p>
+        </header>
+
+        <main class="overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="px-5 py-3">Lab ID</th>
+                            <th class="px-5 py-3">Date</th>
+                            <th class="px-5 py-3 text-center">Question</th>
+                            <th class="px-5 py-3 text-center">Solution</th>
+                            <th class="px-5 py-3 text-center">Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Lab Row 1 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-800">Lab_01</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-600">12-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14a6 6 0 006 6h13a5 5 0 005-5c0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        <!-- Lab Row 2 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-800">Lab_02</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-600">19-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14a6 6 0 006 6h13a5 5 0 005-5c0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                         <!-- Lab Row 3 -->
+                         <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-800">Lab_03</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-600">26-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14a6 6 0 006 6h13a5 5 0 005-5c0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        <!-- Lab Row 4 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-800">Lab_04</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-600">02-09-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14a6 6 0 006 6h13a5 5 0 005-5c0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        <!-- Lab Row 5 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-800">Lab_05</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-600">09-09-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" download class="download-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14a6 6 0 006 6h13a5 5 0 005-5c0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        
+        <footer class="text-center mt-8 pt-6">
+            <p class="text-gray-700 text-sm font-bold">&copy; 2025 MTech AI Program. All Rights Reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
+
