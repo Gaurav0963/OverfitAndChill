@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTech AI Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #F42598;
+            --neon-blue: #00D5E2;
+            --dark-purple: #1a0b2e;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--dark-purple);
+            /* Layering the palm tree SVG over the sunset gradient */
+            background-image: 
+                /* Repeating palm tree silhouettes at the bottom */
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='123' height='150' viewBox='0 0 123 150'%3E%3Cpath fill='%23140821' d='M63.6 150v-58.4c-4-2.5-6.4-7-6.4-12.1 0-8.3 6.6-15 14.8-15 8.1 0 14.8 6.7 14.8 15 0 5.1-2.4 9.6-6.4 12.1V150h-17zm-11-89.1c-1.3-3.1-4.1-5.3-7.4-5.3-4.5 0-8.1 3.9-8.1 8.7 0 3.3 1.8 6.2 4.4 7.7-4.1 2.3-6.9 6.8-6.9 12 0 7.6 6.1 13.8 13.6 13.8s13.6-6.2 13.6-13.8c0-5.2-2.8-9.7-6.9-12 2.6-1.5 4.4-4.4 4.4-7.7 0-4.8-3.6-8.7-8.1-8.7-3.3 0-6.1 2.2-7.5 5.3zm42.1 0c-1.3-3.1-4.1-5.3-7.4-5.3-4.5 0-8.1 3.9-8.1 8.7 0 3.3 1.8 6.2 4.4 7.7-4.1 2.3-6.9 6.8-6.9 12 0 7.6 6.1 13.8 13.6 13.8s13.6-6.2 13.6-13.8c0-5.2-2.8-9.7-6.9-12 2.6-1.5 4.4-4.4 4.4-7.7 0-4.8-3.6-8.7-8.1-8.7-3.3 0-6.1 2.2-7.5 5.3z'/%3E%3C/svg%3E"),
+                /* The sunset gradient for the sky */
+                linear-gradient(to top, rgba(249, 115, 22, 0.7) 0%, rgba(244, 37, 152, 0.6) 30%, rgba(79, 44, 122, 1) 60%, rgba(26, 11, 46, 1) 100%);
+            background-repeat: repeat-x, no-repeat;
+            background-position: bottom, center;
+            background-size: 150px, 100% 100%;
+            color: #f0f0f0;
+        }
+        
+        .main-container {
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(26, 11, 46, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            border: 1px solid rgba(244, 37, 152, 0.2);
+            box-shadow: 0 0 40px rgba(244, 37, 152, 0.2);
+        }
+
+        .header-title {
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 5px #fff, 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+        }
+
+        .header-subtitle {
+             background: -webkit-linear-gradient(45deg, var(--neon-pink), var(--neon-blue) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .table-header th {
+            color: var(--neon-pink);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            border-bottom: 2px solid var(--neon-pink);
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+
+        .table-row {
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .table-row:hover {
+            background-color: rgba(244, 37, 152, 0.1);
+        }
+        
+        .table-row td {
+            border-bottom: 1px solid rgba(244, 37, 152, 0.15);
+        }
+        
+        .table-row:last-child td {
+            border-bottom: none;
+        }
+
+        .btn {
+            border: 2px solid transparent;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 0.875rem;
+        }
+        
+        .btn-question {
+            background-color: var(--neon-blue);
+            color: var(--dark-purple);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+        .btn-question:hover {
+            box-shadow: 0 0 25px var(--neon-blue);
+            transform: scale(1.05);
+        }
+
+        .btn-solution {
+            background-color: var(--neon-pink);
+            color: #fff;
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--neon-pink);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="main-container w-full p-6 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="header-title text-5xl md:text-6xl">MTech AI Lab</h1>
+            <p class="header-subtitle text-xl font-bold mt-2 tracking-wider">Assignments & Solutions</p>
+        </header>
+
+        <main class="overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="px-5 py-3">Lab ID</th>
+                            <th class="px-5 py-3">Date</th>
+                            <th class="px-5 py-3 text-center">Question</th>
+                            <th class="px-5 py-3 text-center">Solution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Lab Row 1 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_01</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">12-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                        </tr>
+                        <!-- Lab Row 2 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_02</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">19-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                        </tr>
+                         <!-- Lab Row 3 -->
+                         <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_03</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">26-08-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                        </tr>
+                        <!-- Lab Row 4 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_04</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">02-09-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                        </tr>
+                        <!-- Lab Row 5 -->
+                        <tr class="table-row">
+                            <td class="px-5 py-4 whitespace-nowrap font-medium text-gray-200">Lab_05</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-gray-400">09-09-2025</td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-question inline-block py-2 px-4">View Question</a>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-solution inline-block py-2 px-4">View Solution</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        
+        <footer class="text-center mt-8 pt-6">
+            <p class="text-gray-500 text-sm">&copy; 2025 MTech AI Program. All Rights Reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
+
