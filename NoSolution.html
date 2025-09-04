@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Solution</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' dy='.35em' text-anchor='middle' font-family='Orbitron, sans-serif' font-size='80' font-weight='bold' fill='%23ff00ff' style='text-shadow: 0 0 5px %23fff, 0 0 10px %23fff, 0 0 15px %23ff00ff;'>AI</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-cyan: #00ffff;
+            --neon-green: #39ff14;
+            --dark-bg: #0d0221;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+        
+        .neon-text {
+            color: #fff;
+            text-shadow:
+                0 0 7px #fff,
+                0 0 10px #fff,
+                0 0 21px #fff,
+                0 0 42px var(--neon-cyan),
+                0 0 82px var(--neon-cyan),
+                0 0 92px var(--neon-cyan),
+                0 0 102px var(--neon-cyan),
+                0 0 151px var(--neon-cyan);
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow:
+                0 0 4px #fff,
+                0 0 11px #fff,
+                0 0 19px #fff,
+                0 0 40px var(--neon-cyan),
+                0 0 80px var(--neon-cyan),
+                0 0 90px var(--neon-cyan),
+                0 0 100px var(--neon-cyan),
+                0 0 150px var(--neon-cyan);
+            }
+            20%, 24%, 55% {        
+                text-shadow: none;
+            }
+        }
+
+        .container {
+             background: rgba(13, 2, 33, 0.5);
+             backdrop-filter: blur(10px);
+             border: 2px solid var(--neon-cyan);
+             box-shadow: 0 0 15px var(--neon-cyan);
+             border-radius: 1rem;
+        }
+        
+        .neon-btn {
+            border: 2px solid;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .btn-pink {
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+            box-shadow: 0 0 5px var(--neon-pink), inset 0 0 5px var(--neon-pink);
+        }
+        .btn-pink:hover {
+            background-color: var(--neon-pink);
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px var(--neon-pink);
+            text-shadow: none;
+        }
+
+        .query-box {
+            background: rgba(255, 0, 255, 0.05);
+            border: 1px solid var(--neon-pink);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+        }
+
+        .code-highlight {
+            background-color: rgba(255, 0, 255, 0.2);
+            color: #fff;
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+
+        .icon-glow {
+            filter: drop-shadow(0 0 8px var(--neon-cyan));
+            color: var(--neon-cyan);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full text-center">
+        
+        <main class="container max-w-2xl mx-auto p-8 md:p-12">
+            <div class="mb-6">
+                <svg class="mx-auto h-16 w-16 icon-glow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold neon-text mb-3">Solution Coming Soon!</h1>
+            <p class="text-lg text-gray-300 mb-8 tracking-wider">
+                The solution for this lab will be uploaded here shortly. Please check back later.
+            </p>
+
+            <div class="query-box p-6 rounded-lg">
+                 <h2 class="text-xl font-semibold text-white mb-2">Have a Question?</h2>
+                 <p class="text-gray-300 mb-4">
+                    If you have any queries, submit them through the Google Form. Only emails ending with <code class="code-highlight font-mono p-1 rounded">@iiitbh.ac.in</code> will be accepted.
+                 </p>
+                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSflgfhugvEgEZCqdxLM0UUFjwV22hIeX76U1i_cFIZA6IvMOw/viewform?usp=sharing&ouid=104196577003773996203" target="_blank" rel="noopener noreferrer" class="neon-btn btn-pink inline-block py-3 px-6">
+                    Submit a Query
+                </a>
+            </div>
+        </main>
+        
+        <footer class="text-center mt-8">
+            <p class="text-gray-400 text-sm">&copy; 2025 AI Lab. B.Tech Third Year Students.</p>
+        </footer>
+    </div>
+</body>
+</html>
+
