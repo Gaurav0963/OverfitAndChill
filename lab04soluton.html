@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Lab - DFS & DLS Solutions</title>
+    <link rel="icon" type="image/png" href="favicon-16x16.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deadpool-red: #d00000;
+            --deadpool-black: #1a1a1a;
+            --off-white: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--deadpool-black);
+            background-image: 
+                radial-gradient(circle at 100% 100%, rgba(208, 0, 0, 0.3), transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(208, 0, 0, 0.2), transparent 50%);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            color: var(--off-white);
+        }
+        
+        .main-container {
+            max-width: 64rem;
+            margin-left: auto;
+            margin-right: auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 25px rgba(208, 0, 0, 0.6);
+        }
+
+        .header-title {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 3px;
+            font-weight: 400;
+            color: var(--deadpool-red);
+            text-shadow: 2px 2px 0 var(--deadpool-black), -2px -2px 0 var(--deadpool-black), -2px 2px 0 var(--deadpool-black), 2px -2px 0 var(--deadpool-black);
+        }
+
+        .header-subtitle {
+            font-weight: 700;
+            color: #ccc;
+        }
+
+        .solution-block {
+            border: 2px solid rgba(208, 0, 0, 0.3);
+            border-radius: 15px;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        .solution-title {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 2px;
+            color: var(--deadpool-red);
+            font-size: 2.5rem;
+            border-bottom: 2px solid var(--deadpool-red);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5rem;
+            color: #f5f5f5;
+            letter-spacing: 1.5px;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .explanation p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .explanation code {
+            background-color: rgba(208, 0, 0, 0.2);
+            color: #ff8a8a;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .code-container {
+            position: relative;
+        }
+
+        pre {
+            background-color: #282c34;
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: #4f5663;
+            color: var(--off-white);
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+        .copy-btn:hover {
+            background-color: #6a7381;
+        }
+
+        .py-comment { color: #5c6370; font-style: italic; }
+        .py-keyword { color: #c678dd; }
+        .py-function { color: #61afef; }
+        .py-params { color: #e5c07b; }
+        .py-string { color: #98c379; }
+        .py-number { color: #d19a66; }
+        .py-operator { color: #56b6c2; }
+        .py-builtin { color: #d19a66; }
+
+
+        .btn {
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.875rem;
+            border: 2px solid var(--deadpool-black);
+        }
+        
+        .btn-back {
+            background-color: var(--deadpool-red);
+            color: var(--deadpool-black);
+        }
+        .btn-back:hover {
+            transform: translateY(-3px);
+            background-color: #ff1a1a;
+            box-shadow: 0 0 15px #ff1a1a;
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="main-container w-full p-6 md:p-8">
+        <header class="text-center mb-4">
+            <h1 class="header-title text-5xl md:text-6xl">Mission Debrief</h1>
+            <p class="header-subtitle text-lg font-bold mt-2 tracking-wider">The Gory Details</p>
+        </header>
+
+        <main>
+            <!-- Solution 1: Depth-Limited Search -->
+            <div class="solution-block">
+                <h2 class="solution-title">Debrief: The Time-Bomb Labyrinth</h2>
+                
+                <h3 class="section-title">The Strategy</h3>
+                <div class="explanation text-gray-300">
+                    <p>Depth-Limited Search (DLS) is a modification of Depth-First Search. The main idea is to prevent DFS from getting stuck in infinitely long paths. We do this by imposing a <code>limit</code> on how deep the search can go. If the goal isn't found within that depth, the search gives up on that path.</p>
+                    <p>Our approach uses two functions. The main function <code>depth_limited_search</code> simply sets up the initial call to a recursive helper, <code>dls_recursive</code>. The real work happens in the recursive function, which keeps track of the current path and the remaining depth allowed.</p>
+                </div>
+
+                <h3 class="section-title">The Code</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code><span class="py-keyword">def</span> <span class="py-function">dls_recursive</span>(<span class="py-params">node</span>, <span class="py-params">goal</span>, <span class="py-params">graph</span>, <span class="py-params">limit</span>, <span class="py-params">path</span>):
+    <span class="py-comment"># Add current node to the path we are exploring</span>
+    path.append(node)
+    
+    <span class="py-comment"># If we found the goal, the mission is a success. Return the path.</span>
+    <span class="py-keyword">if</span> node <span class="py-operator">==</span> goal:
+        <span class="py-keyword">return</span> path
+        
+    <span class="py-comment"># If the limit is 0, we've hit a dead end for this path. Time to backtrack.</span>
+    <span class="py-keyword">if</span> limit <span class="py-operator">&lt;=</span> <span class="py-number">0</span>:
+        <span class="py-keyword">return</span> <span class="py-builtin">None</span>
+        
+    <span class="py-comment"># Explore the neighbors recursively</span>
+    <span class="py-keyword">for</span> neighbor <span class="py-keyword">in</span> graph[node]:
+        <span class="py-comment"># Make a copy of the path to avoid modifying it across different branches</span>
+        result <span class="py-operator">=</span> dls_recursive(neighbor, goal, graph, limit <span class="py-operator">-</span> <span class="py-number">1</span>, path[:])
+        <span class="py-keyword">if</span> result <span class="py-keyword">is not</span> <span class="py-builtin">None</span>:
+            <span class="py-keyword">return</span> result
+            
+    <span class="py-comment"># If no neighbor led to the goal within the limit, report failure for this path.</span>
+    <span class="py-keyword">return</span> <span class="py-builtin">None</span>
+
+<span class="py-keyword">def</span> <span class="py-function">depth_limited_search</span>(<span class="py-params">graph</span>, <span class="py-params">start</span>, <span class="py-params">goal</span>, <span class="py-params">limit</span>):
+    <span class="py-comment"># Kick off the recursive search</span>
+    <span class="py-keyword">return</span> dls_recursive(start, goal, graph, limit, [])
+</code></pre>
+                </div>
+            </div>
+
+            <!-- Solution 2: Depth-First Search -->
+            <div class="solution-block">
+                <h2 class="solution-title">Debrief: Escape the Hydra Base</h2>
+                
+                <h3 class="section-title">The Strategy</h3>
+                <div class="explanation text-gray-300">
+                    <p>Depth-First Search (DFS) explores as far as possible down one branch before backtracking. For this mission, we use an iterative approach with a <code>stack</code>. A stack is a "Last-In, First-Out" (LIFO) data structure, which is perfect for DFS. The last room we discover is the first one we'll explore from.</p>
+                    <p>We also use a <code>visited</code> set. This is crucial for any graph with cycles or multiple paths to the same node. It prevents us from getting stuck in an infinite loop by ensuring we never process the same room twice. The stack stores not just the room, but the entire path taken to get there.</p>
+                </div>
+
+                <h3 class="section-title">The Code</h3>
+                 <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><code><span class="py-keyword">def</span> <span class="py-function">depth_first_search</span>(<span class="py-params">graph</span>, <span class="py-params">start</span>, <span class="py-params">goal</span>):
+    <span class="py-comment"># The stack stores tuples of (node, path_to_node)</span>
+    stack <span class="py-operator">=</span> [(start, [start])]
+    visited <span class="py-operator">=</span> <span class="py-builtin">set</span>()
+
+    <span class="py-keyword">while</span> stack:
+        <span class="py-comment"># Pop the last added node and its path (LIFO)</span>
+        (node, path) <span class="py-operator">=</span> stack.pop()
+
+        <span class="py-keyword">if</span> node <span class="py-keyword">not in</span> visited:
+            visited.add(node)
+
+            <span class="py-comment"># If we found the goal, return the path that led us here</span>
+            <span class="py-keyword">if</span> node <span class="py-operator">==</span> goal:
+                <span class="py-keyword">return</span> path
+            
+            <span class="py-comment"># Add all neighbors to the stack to be explored</span>
+            <span class="py-comment"># Note: We reverse the order to explore them alphabetically/in given order</span>
+            <span class="py-keyword">for</span> neighbor <span class="py-keyword">in</span> <span class="py-builtin">reversed</span>(graph[node]):
+                <span class="py-keyword">if</span> neighbor <span class="py-keyword">not in</span> visited:
+                    new_path <span class="py-operator">=</span> <span class="py-builtin">list</span>(path)
+                    new_path.append(neighbor)
+                    stack.append((neighbor, new_path))
+    
+    <span class="py-comment"># If the stack becomes empty and we haven't found the goal, it's not reachable</span>
+    <span class="py-keyword">return</span> <span class="py-builtin">None</span>
+</code></pre>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="text-center mt-8 pt-6">
+             <a href="./dls_dfs_questions.html" class="btn btn-back inline-block py-2 px-4">Back to The Intel</a>
+            <p class="text-gray-500 text-sm font-bold mt-4">&copy; 2025 MTech AI Program. Mission accomplished. Time for tacos.</p>
+        </footer>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const pre = button.nextElementSibling;
+            const code = pre.querySelector('code');
+            
+            // This is a trick to handle the hidden text from CSS.
+            // A temporary element is created to get the raw text content.
+            const textarea = document.createElement('textarea');
+            textarea.value = code.innerText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+                button.textContent = 'Copy';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
