@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Lab - DFS & DLS Questions</title>
+    <link rel="icon" type="image/png" href="favicon-16x16.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Deadpool's color palette */
+            --deadpool-red: #d00000;
+            --deadpool-black: #1a1a1a;
+            --off-white: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--deadpool-black);
+            background-image: 
+                radial-gradient(circle at 100% 100%, rgba(208, 0, 0, 0.3), transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(208, 0, 0, 0.2), transparent 50%);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            color: var(--off-white);
+        }
+        
+        .main-container {
+            max-width: 64rem; /* Increased width for more content */
+            margin-left: auto;
+            margin-right: auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 25px rgba(208, 0, 0, 0.6);
+        }
+
+        .header-title {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 3px;
+            font-weight: 400;
+            color: var(--deadpool-red);
+            text-shadow: 2px 2px 0 var(--deadpool-black), -2px -2px 0 var(--deadpool-black), -2px 2px 0 var(--deadpool-black), 2px -2px 0 var(--deadpool-black);
+        }
+
+        .header-subtitle {
+            font-weight: 700;
+            color: #ccc;
+        }
+
+        .question-block {
+            border: 2px solid rgba(208, 0, 0, 0.3);
+            border-radius: 15px;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        .question-title {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 2px;
+            color: var(--deadpool-red);
+            font-size: 2.5rem;
+            border-bottom: 2px solid var(--deadpool-red);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5rem;
+            color: #f5f5f5;
+            letter-spacing: 1.5px;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Python Code Block Styling */
+        pre {
+            background-color: #282c34; /* A dark, modern editor background */
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .py-comment { color: #5c6370; font-style: italic; } /* Grey for comments */
+        .py-keyword { color: #c678dd; } /* Purple for keywords like def, return */
+        .py-function { color: #61afef; } /* Blue for function names */
+        .py-params { color: #e5c07b; } /* Yellow for parameters */
+        .py-string { color: #98c379; } /* Green for strings */
+        .py-number { color: #d19a66; } /* Orange for numbers */
+        .py-class { color: #e5c07b; } /* Yellow for class names */
+        .py-operator { color: #56b6c2; } /* Cyan for operators */
+
+        .btn {
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.875rem;
+            border: 2px solid var(--deadpool-black);
+        }
+        
+        .btn-back {
+            background-color: var(--deadpool-red);
+            color: var(--deadpool-black);
+        }
+        .btn-back:hover {
+            transform: translateY(-3px);
+            background-color: #ff1a1a;
+            box-shadow: 0 0 15px #ff1a1a;
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="main-container w-full p-6 md:p-8">
+        <header class="text-center mb-4">
+            <h1 class="header-title text-5xl md:text-6xl">AI Lab Missions</h1>
+            <p class="header-subtitle text-lg font-bold mt-2 tracking-wider">Uninformed Search Ops</p>
+        </header>
+
+        <main>
+            <!-- Question 1: Depth-Limited Search -->
+            <div class="question-block">
+                <h2 class="question-title">Mission: The Time-Bomb Labyrinth</h2>
+                <p class="text-gray-300">A hero is trapped in a labyrinth with a ticking time bomb. You must find if a path to the exit exists within a specific number of moves (depth limit) before it's too late! Implement Depth-Limited Search to solve this.</p>
+                
+                <h3 class="section-title">The Intel (Graph)</h3>
+                <pre><code>graph = {
+    <span class="py-string">'A'</span>: [<span class="py-string">'B'</span>, <span class="py-string">'C'</span>],
+    <span class="py-string">'B'</span>: [<span class="py-string">'D'</span>, <span class="py-string">'E'</span>],
+    <span class="py-string">'C'</span>: [<span class="py-string">'F'</span>],
+    <span class="py-string">'D'</span>: [],
+    <span class="py-string">'E'</span>: [<span class="py-string">'F'</span>],
+    <span class="py-string">'F'</span>: []
+}</code></pre>
+
+                <h3 class="section-title">Sample Inputs & Expected Outputs</h3>
+                <ul class="list-disc list-inside text-gray-300">
+                    <li><strong>Input:</strong> `start='A'`, `goal='F'`, `limit=2`</li>
+                    <li><strong>Expected Output:</strong> `['A', 'C', 'F']`</li>
+                    <li><strong>Input:</strong> `start='A'`, `goal='F'`, `limit=1`</li>
+                    <li><strong>Expected Output:</strong> `None` (or a message like "Goal not reachable within limit")</li>
+                </ul>
+
+                <h3 class="section-title">The Approach (Your Blueprint)</h3>
+                <pre><code><span class="py-keyword">def</span> <span class="py-function">depth_limited_search</span>(<span class="py-params">graph</span>, <span class="py-params">start</span>, <span class="py-params">goal</span>, <span class="py-params">limit</span>):
+    <span class="py-comment"># This is the main function that initiates the search.</span>
+    <span class="py-comment"># It should call a recursive helper function to perform the DLS.</span>
+    <span class="py-comment"># It will return the path if found, otherwise None.</span>
+    <span class="py-keyword">pass</span>
+
+<span class="py-keyword">def</span> <span class="py-function">dls_recursive</span>(<span class="py-params">node</span>, <span class="py-params">goal</span>, <span class="py-params">graph</span>, <span class="py-params">limit</span>, <span class="py-params">path</span>):
+    <span class="py-comment"># This recursive function explores the graph.</span>
+    <span class="py-comment"># 1. Add the current node to the path.</span>
+    <span class="py-comment"># 2. Check if the current node is the goal. If yes, return the path.</span>
+    <span class="py-comment"># 3. Check if the depth limit is reached. If yes, stop exploring this path.</span>
+    <span class="py-comment"># 4. Iterate through the neighbors of the current node.</span>
+    <span class="py-comment"># 5. Recursively call this function for each neighbor with a decremented limit.</span>
+    <span class="py-comment"># 6. If a recursive call returns a valid path, propagate it up.</span>
+    <span class="py-comment"># 7. If no path is found from any neighbor, return None.</span>
+    <span class="py-keyword">pass</span>
+</code></pre>
+            </div>
+
+            <!-- Question 2: Depth-First Search -->
+            <div class="question-block">
+                <h2 class="question-title">Mission: Escape the Hydra Base</h2>
+                <p class="text-gray-300">You've infiltrated a Hydra base, represented as a graph of interconnected rooms. Find any path from your entry point to the exit. The base is vast, so you need a systematic way to explore every possible corridor to its end before backtracking. Use Depth-First Search.</p>
+
+                <h3 class="section-title">The Intel (Graph)</h3>
+                 <pre><code>graph = {
+    <span class="py-string">'Entry'</span>: [<span class="py-string">'Hall A'</span>, <span class="py-string">'Stairs'</span>],
+    <span class="py-string">'Hall A'</span>: [<span class="py-string">'Lab'</span>, <span class="py-string">'Armory'</span>],
+    <span class="py-string">'Stairs'</span>: [<span class="py-string">'Control Room'</span>],
+    <span class="py-string">'Lab'</span>: [],
+    <span class="py-string">'Armory'</span>: [<span class="py-string">'Exit'</span>],
+    <span class="py-string">'Control Room'</span>: [],
+    <span class="py-string">'Exit'</span>: []
+}</code></pre>
+                
+                <h3 class="section-title">Sample Input & Expected Output</h3>
+                 <ul class="list-disc list-inside text-gray-300">
+                    <li><strong>Input:</strong> `start='Entry'`, `goal='Exit'`</li>
+                    <li><strong>Expected Output:</strong> `['Entry', 'Hall A', 'Armory', 'Exit']` (Note: Another valid DFS path could be found depending on neighbor order)</li>
+                </ul>
+
+                <h3 class="section-title">The Approach (Your Blueprint)</h3>
+                <pre><code><span class="py-keyword">def</span> <span class="py-function">depth_first_search</span>(<span class="py-params">graph</span>, <span class="py-params">start</span>, <span class="py-params">goal</span>):
+    <span class="py-comment"># Implements the iterative version of DFS using a stack.</span>
+    <span class="py-comment"># 1. Initialize a stack and add a tuple: (start_node, [path_to_start_node]).</span>
+    <span class="py-comment"># 2. Initialize a set to keep track of visited nodes to avoid cycles.</span>
+    <span class="py-comment"># 3. Loop while the stack is not empty.</span>
+    <span class="py-comment"># 4. Pop a node and its path from the stack.</span>
+    <span class="py-comment"># 5. If the node has not been visited:</span>
+    <span class="py-comment">#    a. Mark it as visited.</span>
+    <span class="py-comment">#    b. If the node is the goal, return its path.</span>
+    <span class="py-comment">#    c. For each neighbor of the node, push a new tuple onto the stack: (neighbor, new_path).</span>
+    <span class="py-comment"># 6. If the loop finishes without finding the goal, return None.</span>
+    <span class="py-keyword">pass</span>
+</code></pre>
+            </div>
+        </main>
+        
+        <footer class="text-center mt-8 pt-6">
+             <a href="./index.html" class="btn btn-back inline-block py-2 px-4">Back to Main Hub</a>
+            <p class="text-gray-500 text-sm font-bold mt-4">&copy; 2025 MTech AI Program. No chimichangas were harmed in the making of this assignment.</p>
+        </footer>
+    </div>
+</body>
+</html>
