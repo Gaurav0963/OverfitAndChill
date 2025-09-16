@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 05</title>
+    <link rel="icon" type="image/png" href="favicon-16x16.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --deadpool-red: #d00000;
+            --deadpool-black: #1a1a1a;
+            --off-white: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--deadpool-black);
+            background-image:
+                radial-gradient(circle at 100% 100%, rgba(208, 0, 0, 0.3), transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(208, 0, 0, 0.2), transparent 50%);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            color: var(--off-white);
+        }
+
+        .main-container {
+            max-width: 64rem;
+            margin-left: auto;
+            margin-right: auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 25px rgba(208, 0, 0, 0.6);
+        }
+
+        .header-title {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 3px;
+            font-weight: 400;
+            color: var(--deadpool-red);
+            text-shadow: 2px 2px 0 var(--deadpool-black), -2px -2px 0 var(--deadpool-black), -2px 2px 0 var(--deadpool-black), 2px -2px 0 var(--deadpool-black);
+        }
+
+        .question-title {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 2px;
+            color: var(--deadpool-red);
+            border-bottom: 2px solid var(--deadpool-red);
+        }
+        
+        details > summary {
+            cursor: pointer;
+            list-style: none;
+            font-family: 'Bangers', cursive;
+            letter-spacing: 1px;
+            font-size: 1.25rem;
+            background-color: rgba(208, 0, 0, 0.2);
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            outline: none;
+        }
+
+        details > summary:hover {
+            background-color: rgba(208, 0, 0, 0.4);
+        }
+
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details[open] > summary {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .approach-content {
+            background-color: rgba(0,0,0,0.3);
+            padding: 1.5rem;
+            border: 1px solid rgba(208, 0, 0, 0.2);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        pre[class*="language-"] {
+            background: #1e1e1e;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        code[class*="language-"] {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .code-block {
+             background-color: rgba(0,0,0,0.5);
+             padding: 0.1rem 0.3rem;
+             border-radius: 4px;
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="main-container w-full p-6 md:p-8">
+        <header class="text-center mb-10">
+            <h1 class="header-title text-5xl md:text-6xl">AI Lab 05 Questions</h1>
+            <p class="text-lg text-gray-300 mt-2">Branch & Bound and Heuristic Search</p>
+        </header>
+
+        <main class="space-y-12">
+            <!-- Question 1: Branch and Bound -->
+            <section>
+                <h2 class="question-title text-4xl pb-2 mb-4">Q1: The 0/1 Knapsack Problem</h2>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    You are a master thief planning a heist. You have a knapsack that can hold a maximum weight of <strong>W</strong>. In the vault, there are <strong>n</strong> items, each with a specific value and weight. Your goal is to choose which items to steal to maximize the total value, without exceeding the knapsack's weight limit. You can either take an entire item or leave it behind (no partial items allowed).
+                </p>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    Implement a solution using the <strong>Branch and Bound</strong> algorithm to find the optimal selection of items.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-6 text-gray-200">
+                    <div class="bg-black bg-opacity-25 p-4 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2 text-deadpool-red">Sample Input</h3>
+                        <pre class="code-block"><code class="language-json">W = 50
+items = [
+  {"value": 60, "weight": 10},
+  {"value": 100, "weight": 20},
+  {"value": 120, "weight": 30}
+]</code></pre>
+                    </div>
+                    <div class="bg-black bg-opacity-25 p-4 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2 text-deadpool-red">Expected Output</h3>
+                        <pre class="code-block"><code class="language-text">Maximum value: 220
+Selected items (value, weight):
+- (100, 20)
+- (120, 30)</code></pre>
+                    </div>
+                </div>
+
+                <details>
+                    <summary>Show Approach & Code Skeleton</summary>
+                    <div class="approach-content space-y-4">
+                        <div>
+                            <h4 class="font-bold text-xl mb-2 text-deadpool-red">Approach</h4>
+                            <p>The Branch and Bound strategy explores the solution space as a state-space tree. Each node in the tree represents a decision to either include or exclude an item.</p>
+                            <ol class="list-decimal list-inside space-y-2 mt-2">
+                                <li>Sort items by value-to-weight ratio in descending order. This helps in pruning the tree effectively.</li>
+                                <li>Use a priority queue to manage live nodes. The priority of a node is determined by its upper bound.</li>
+                                <li>A node's <strong>upper bound</strong> is calculated by taking the current profit and adding the potential profit from remaining items (allowing fractional parts, like in the Fractional Knapsack problem). This bound tells us the *best possible* outcome from this path.</li>
+                                <li>We explore the node with the highest upper bound first. If a node's bound is less than the current maximum profit found, we can "prune" that entire branch, as it cannot lead to a better solution.</li>
+                                <li>The process continues until the priority queue is empty. The highest profit found among all feasible solutions is the answer.</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl mb-2 text-deadpool-red">Python Skeleton</h4>
+                            <pre><code class="language-python">import heapq
+
+class Node:
+    # A class to represent a node in the state-space tree
+    def __init__(self, level, profit, weight):
+        # level: which item we are considering
+        # profit: total profit of items included so far
+        # weight: total weight of items included so far
+        pass
+
+def calculate_bound(node, n, W, items):
+    """
+    Calculates the upper bound of a node.
+    This is the core of the Branch and Bound algorithm. It should calculate
+    the current profit + the maximum possible profit from remaining items
+    (allowing fractions).
+    """
+    pass
+
+def solve_knapsack(W, items):
+    """
+    Main function to solve the 0/1 knapsack problem.
+    1. Sort items by value/weight ratio.
+    2. Initialize a priority queue (min-heap, so store negative bounds).
+    3. Create a root node and push to the queue.
+    4. Loop while the queue is not empty:
+       a. Pop the node with the highest bound.
+       b. If its bound is better than the current max profit, explore its children:
+          - Child 1: Including the next item (if it fits).
+          - Child 2: Excluding the next item.
+       c. For each child, calculate its profit, weight, and bound.
+       d. Push valid children to the queue.
+    5. Return the maximum profit found.
+    """
+    pass
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <!-- Question 2: Heuristic Search -->
+            <section>
+                <h2 class="question-title text-4xl pb-2 mb-4">Q2: The 8-Puzzle Problem</h2>
+                 <p class="text-gray-300 leading-relaxed mb-4">
+                    The 8-puzzle is a sliding puzzle that consists of a 3x3 grid with 8 numbered tiles and one empty space. The goal is to rearrange the tiles from a given initial configuration to a target configuration by sliding tiles into the empty space.
+                </p>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    Implement the <strong>A* Search algorithm</strong> to find the shortest path of moves from a start state to a goal state. Use the <strong>Manhattan distance</strong> as your heuristic. Explain why this heuristic is <strong>admissible</strong> and what would happen if you used a <strong>non-admissible</strong> one.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-6 text-gray-200">
+                    <div class="bg-black bg-opacity-25 p-4 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2 text-deadpool-red">Sample Input</h3>
+                        <pre class="code-block"><code class="language-python">start_state = [
+    [2, 8, 3], 
+    [1, 6, 4], 
+    [7, 0, 5]  # 0 is the empty space
+]
+goal_state = [
+    [1, 2, 3], 
+    [8, 0, 4], 
+    [7, 6, 5]
+]</code></pre>
+                    </div>
+                    <div class="bg-black bg-opacity-25 p-4 rounded-lg">
+                        <h3 class="font-bold text-lg mb-2 text-deadpool-red">Expected Output</h3>
+                        <pre class="code-block"><code class="language-text">Path: ['UP', 'LEFT', 'LEFT', 'DOWN']
+Cost: 4</code></pre>
+                    </div>
+                </div>
+
+                <details>
+                    <summary>Show Approach & Code Skeleton</summary>
+                    <div class="approach-content space-y-4">
+                        <div>
+                            <h4 class="font-bold text-xl mb-2 text-deadpool-red">Approach</h4>
+                            <p>A* Search is an informed search algorithm that finds the shortest path by balancing the cost to reach a node (g-cost) and the estimated cost to the goal (h-cost).</p>
+                            <ol class="list-decimal list-inside space-y-2 mt-2">
+                                <li>The total cost of a node is <code>f(n) = g(n) + h(n)</code>, where <code>g(n)</code> is the number of moves from the start, and <code>h(n)</code> is the heuristic estimate.</li>
+                                <li>We use a priority queue to always expand the node with the lowest <code>f(n)</code> value.</li>
+                                <li>The <strong>Manhattan distance heuristic</strong> calculates the sum of the horizontal and vertical distances of each tile from its goal position.</li>
+                                <li><strong>Admissible vs. Non-Admissible Heuristics:</strong>
+                                    <ul class="list-disc list-inside ml-4 mt-1">
+                                        <li>An <strong>admissible</strong> heuristic (like Manhattan distance) never overestimates the true cost to the goal. A* is guaranteed to find the optimal solution if the heuristic is admissible.</li>
+                                        <li>A <strong>non-admissible</strong> heuristic (e.g., Manhattan distance * 2) might find a solution faster by being more "greedy," but it is not guaranteed to be the shortest path. It sacrifices optimality for speed.</li>
+                                    </ul>
+                                </li>
+                                <li>Keep track of visited states to avoid cycles and redundant computations.</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl mb-2 text-deadpool-red">Python Skeleton</h4>
+                           <pre><code class="language-python">import heapq
+
+class PuzzleNode:
+    # Represents a state in the 8-puzzle search
+    def __init__(self, state, parent, move, g_cost, h_cost):
+        # state: the 3x3 grid configuration
+        # parent: the node that generated this node
+        # move: the move taken to reach this state ('UP', 'DOWN', etc.)
+        # g_cost: cost from start to this node
+        # h_cost: heuristic cost from this node to goal
+        pass
+    
+    def f_cost(self):
+        # Returns the total f-cost for the priority queue
+        return self.g_cost + self.h_cost
+
+def calculate_manhattan_distance(state, goal_state):
+    """
+    Calculates the Manhattan distance heuristic for a given state.
+    Iterate through the grid, and for each tile, find its position in the
+    goal state and sum up the row and column differences.
+    """
+    pass
+
+def get_neighbors(node):
+    """
+    Generates all possible successor states from the current state.
+    1. Find the position of the empty tile (0).
+    2. Generate new states by swapping the empty tile with its
+       adjacent tiles (up, down, left, right).
+    3. Return a list of new neighbor states.
+    """
+    pass
+
+def solve_8_puzzle(start_state, goal_state):
+    """
+    Main A* search algorithm for the 8-puzzle.
+    1. Initialize a priority queue (open list) and a set for visited states (closed list).
+    2. Create the start node and add it to the open list.
+    3. Loop while the open list is not empty:
+       a. Pop the node with the lowest f-cost.
+       b. If it's the goal state, reconstruct and return the path.
+       c. Add the current state to the closed list.
+       d. Generate neighbors. For each neighbor:
+          - If it's in the closed list, ignore it.
+          - Calculate its g and h costs.
+          - If it's not in the open list OR has a lower g-cost, add/update it in the open list.
+    4. If the loop finishes, no solution was found.
+    """
+    pass
+</code></pre>
+                        </div>
+                    </div>
+                </details>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>
+
