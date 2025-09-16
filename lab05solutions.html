@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab05 Solution</title>
+    <link rel="icon" type="image/png" href="favicon-16x16.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --deadpool-red: #d00000;
+            --deadpool-black: #1a1a1a;
+            --off-white: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--deadpool-black);
+            background-image:
+                radial-gradient(circle at 100% 100%, rgba(208, 0, 0, 0.3), transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(208, 0, 0, 0.2), transparent 50%);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            color: var(--off-white);
+        }
+
+        .main-container {
+            max-width: 64rem;
+            margin-left: auto;
+            margin-right: auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 25px rgba(208, 0, 0, 0.6);
+        }
+
+        .header-title {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 3px;
+            font-weight: 400;
+            color: var(--deadpool-red);
+            text-shadow: 2px 2px 0 var(--deadpool-black), -2px -2px 0 var(--deadpool-black), -2px 2px 0 var(--deadpool-black), 2px -2px 0 var(--deadpool-black);
+        }
+
+        .question-title {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 2px;
+            color: var(--deadpool-red);
+            border-bottom: 2px solid var(--deadpool-red);
+        }
+        
+        pre[class*="language-"] {
+            background: #1e1e1e;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            max-height: 600px;
+            overflow: auto;
+        }
+
+        code[class*="language-"] {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="main-container w-full p-6 md:p-8">
+        <header class="text-center mb-10">
+            <h1 class="header-title text-5xl md:text-6xl">AI Lab 05 Solutions</h1>
+            <p class="text-lg text-gray-300 mt-2">The Debriefing</p>
+        </header>
+
+        <main class="space-y-12">
+            <!-- Solution 1: Branch and Bound -->
+            <section>
+                <h2 class="question-title text-4xl pb-2 mb-4">Q1: The 0/1 Knapsack Problem - Solution</h2>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                   This Python code implements the Branch and Bound algorithm to solve the 0/1 Knapsack problem. It uses a priority queue to explore the most promising nodes first, pruning branches that cannot lead to an optimal solution.
+                </p>
+                <div>
+                    <h4 class="font-bold text-xl mb-2 text-deadpool-red">Python Solution</h4>
+                    <pre><code class="language-python">import heapq
+
+class Item:
+    def __init__(self, value, weight):
+        self.value = value
+        self.weight = weight
+        self.ratio = value / weight
+
+class Node:
+    def __init__(self, level, profit, weight):
+        self.level = level
+        self.profit = profit
+        self.weight = weight
+
+def calculate_bound(node, n, W, items):
+    if node.weight >= W:
+        return 0
+    
+    profit_bound = node.profit
+    j = node.level + 1
+    total_weight = node.weight
+    
+    while j < n and total_weight + items[j].weight <= W:
+        total_weight += items[j].weight
+        profit_bound += items[j].value
+        j += 1
+    
+    if j < n:
+        profit_bound += (W - total_weight) * items[j].ratio
+        
+    return profit_bound
+
+def solve_knapsack(W, items_dict):
+    items = [Item(i['value'], i['weight']) for i in items_dict]
+    items.sort(key=lambda x: x.ratio, reverse=True)
+    
+    n = len(items)
+    pq = []
+    
+    # Root node: level -1, profit 0, weight 0
+    root = Node(-1, 0, 0)
+    # Use negative bound for max-heap behavior with heapq (min-heap)
+    heapq.heappush(pq, (-calculate_bound(root, n, W, items), root))
+    
+    max_profit = 0
+    
+    while pq:
+        bound, u = heapq.heappop(pq)
+        bound = -bound
+        
+        if bound < max_profit:
+            continue
+            
+        if u.level == n - 1:
+            continue
+        
+        # Explore next level
+        v_level = u.level + 1
+        
+        # --- Child 1: Including the item ---
+        v_weight_incl = u.weight + items[v_level].weight
+        if v_weight_incl <= W:
+            v_profit_incl = u.profit + items[v_level].value
+            
+            if v_profit_incl > max_profit:
+                max_profit = v_profit_incl
+            
+            v_incl = Node(v_level, v_profit_incl, v_weight_incl)
+            v_incl_bound = calculate_bound(v_incl, n, W, items)
+            
+            if v_incl_bound > max_profit:
+                heapq.heappush(pq, (-v_incl_bound, v_incl))
+
+        # --- Child 2: Excluding the item ---
+        v_excl = Node(v_level, u.profit, u.weight)
+        v_excl_bound = calculate_bound(v_excl, n, W, items)
+        
+        if v_excl_bound > max_profit:
+            heapq.heappush(pq, (-v_excl_bound, v_excl))
+            
+    return max_profit
+
+if __name__ == '__main__':
+    W = 50
+    items_input = [
+      {"value": 60, "weight": 10},
+      {"value": 100, "weight": 20},
+      {"value": 120, "weight": 30}
+    ]
+    
+    max_val = solve_knapsack(W, items_input)
+    print(f"Maximum value: {max_val}")
+    # Expected output is 220, but with this greedy approach, it might find 160 (60+100) or 180 (60+120).
+    # The sample output 220 (100+120) is correct. The algorithm finds this.
+</code></pre>
+                </div>
+            </section>
+
+            <!-- Solution 2: Heuristic Search -->
+            <section>
+                <h2 class="question-title text-4xl pb-2 mb-4">Q2: The 8-Puzzle Problem - Solution</h2>
+                 <p class="text-gray-300 leading-relaxed mb-4">
+                    This is a Python implementation of the A* search algorithm to solve the 8-puzzle. It uses the Manhattan distance as an admissible heuristic to efficiently find the shortest path from the start state to the goal state.
+                </p>
+                <div>
+                    <h4 class="font-bold text-xl mb-2 text-deadpool-red">Python Solution</h4>
+                    <pre><code class="language-python">import heapq
+
+class PuzzleNode:
+    def __init__(self, state, parent=None, move=None, g_cost=0):
+        self.state = state
+        self.parent = parent
+        self.move = move
+        self.g_cost = g_cost
+        self.h_cost = 0
+    
+    def __lt__(self, other):
+        return (self.g_cost + self.h_cost) < (other.g_cost + other.h_cost)
+
+def calculate_manhattan_distance(state, goal_state):
+    distance = 0
+    goal_pos = {tile: (r, c) for r, row in enumerate(goal_state) for c, tile in enumerate(row)}
+    for r, row in enumerate(state):
+        for c, tile in enumerate(row):
+            if tile != 0:
+                gr, gc = goal_pos[tile]
+                distance += abs(r - gr) + abs(c - gc)
+    return distance
+
+def get_neighbors(node):
+    neighbors = []
+    state = node.state
+    # Find the empty tile (0)
+    zero_r, zero_c = -1, -1
+    for r, row in enumerate(state):
+        for c, tile in enumerate(row):
+            if tile == 0:
+                zero_r, zero_c = r, c
+                break
+    
+    moves = {'UP': (-1, 0), 'DOWN': (1, 0), 'LEFT': (0, -1), 'RIGHT': (0, 1)}
+    
+    for move_name, (dr, dc) in moves.items():
+        nr, nc = zero_r + dr, zero_c + dc
+        if 0 <= nr < 3 and 0 <= nc < 3:
+            new_state = [row[:] for row in state]
+            new_state[zero_r][zero_c], new_state[nr][nc] = new_state[nr][nc], new_state[zero_r][zero_c]
+            neighbors.append(PuzzleNode(new_state, parent=node, move=move_name, g_cost=node.g_cost + 1))
+            
+    return neighbors
+
+def reconstruct_path(node):
+    path = []
+    while node.parent:
+        path.append(node.move)
+        node = node.parent
+    return path[::-1]
+
+def solve_8_puzzle(start_state, goal_state):
+    start_node = PuzzleNode(start_state)
+    start_node.h_cost = calculate_manhattan_distance(start_state, goal_state)
+    
+    open_list = [start_node]
+    closed_set = set()
+    
+    while open_list:
+        current_node = heapq.heappop(open_list)
+        
+        if current_node.state == goal_state:
+            path = reconstruct_path(current_node)
+            return path, len(path)
+            
+        # Use tuple of tuples for state to make it hashable for the set
+        current_state_tuple = tuple(map(tuple, current_node.state))
+        if current_state_tuple in closed_set:
+            continue
+        
+        closed_set.add(current_state_tuple)
+        
+        for neighbor in get_neighbors(current_node):
+            neighbor.h_cost = calculate_manhattan_distance(neighbor.state, goal_state)
+            heapq.heappush(open_list, neighbor)
+            
+    return None, -1 # No solution found
+
+if __name__ == '__main__':
+    start_state = [
+        [2, 8, 3], 
+        [1, 6, 4], 
+        [7, 0, 5]
+    ]
+    goal_state = [
+        [1, 2, 3], 
+        [8, 0, 4], 
+        [7, 6, 5]
+    ]
+
+    path, cost = solve_8_puzzle(start_state, goal_state)
+    if path:
+        print(f"Path: {path}")
+        print(f"Cost: {cost}")
+    else:
+        print("No solution found.")
+</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>
