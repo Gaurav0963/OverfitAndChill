@@ -1,0 +1,425 @@
+Here is the quiz on A* algorithms formatted as a complete, single-file webpage. You can copy this code and save it as an .html file (e.g., a_star_quiz.html) and open it in any web browser to run the quiz.
+This webpage includes the HTML structure, CSS for styling, and JavaScript for the quiz logic, all in one file for easy use.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A* Algorithm Quiz for GATE</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .quiz-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .quiz-header {
+            margin-bottom: 25px;
+        }
+
+        .quiz-header h1 {
+            color: #007bff;
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+
+        .question-number {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .question {
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .options-container {
+            text-align: left;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-label {
+            display: block;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            position: relative;
+            font-size: 1.1em;
+        }
+
+        .option-label:hover {
+            background-color: #d8dee4;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        input[type="radio"]:checked + .option-label {
+            background-color: #cce5ff;
+            border: 2px solid #007bff;
+            transform: scale(1.02);
+        }
+
+        .option-label.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        .option-label.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            animation: shake 0.5s;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn.check-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+        
+        .btn.next-btn {
+            background-color: #6c757d;
+            color: #fff;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn.check-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn.next-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .rationale {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+            font-size: 1em;
+            line-height: 1.4;
+            display: none;
+            transition: opacity 0.5s;
+        }
+        
+        .score-container {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-top: 30px;
+            color: #007bff;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-style: italic;
+            color: #888;
+        }
+        
+        /* LaTeX styling for better readability */
+        .question span.latex, .rationale span.latex {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            font-weight: normal;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container" id="quizContainer">
+        <div class="quiz-header">
+            <h1>A* Algorithm Quiz for GATE</h1>
+        </div>
+
+        <div id="quizContent">
+            <div class="question-number">Question <span id="currentQuestionNumber"></span> of 10</div>
+            <div class="question" id="questionText"></div>
+            
+            <div class="options-container" id="optionsContainer"></div>
+
+            <div class="button-container">
+                <button class="btn check-btn" id="checkButton">Check Answer</button>
+            </div>
+
+            <div class="rationale" id="rationaleText"></div>
+        </div>
+
+        <div id="quizResult" style="display:none;">
+            <div class="score-container"></div>
+            <div class="footer">Keep up the great work!</div>
+        </div>
+
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                "question": "The A* search algorithm finds the optimal path from a start node to a goal node. Which of the following conditions is sufficient for A* to be optimal?",
+                "answerOptions": [
+                    {"text": "The heuristic function $h(n)$ is consistent.", "isCorrect": true, "rationale": "A consistent heuristic implies admissibility and is a stronger condition, guaranteeing optimality for A* on a graph."},
+                    {"text": "The heuristic function $h(n)$ is admissible.", "isCorrect": false, "rationale": "Admissibility alone is sufficient for optimality on a tree search, but for a general graph, a stronger condition like consistency is required to guarantee optimality without redundant node expansions."},
+                    {"text": "The heuristic function $h(n)$ is always greater than the actual cost to reach the goal.", "isCorrect": false, "rationale": "If the heuristic overestimates the cost, it is not admissible, and A* may not find the optimal solution."},
+                    {"text": "The heuristic function $h(n)$ is equal to the actual cost to reach the goal.", "isCorrect": false, "rationale": "While an ideal heuristic would be perfectly accurate, this is rarely possible in practice. This condition is not necessary for optimality; admissibility or consistency is sufficient."}
+                ]
+            },
+            {
+                "question": "In the A* algorithm, the evaluation function is defined as $f(n) = g(n) + h(n)$. What do $g(n)$ and $h(n)$ represent, respectively?",
+                "answerOptions": [
+                    {"text": "$g(n)$ is the estimated cost from the current node to the goal, and $h(n)$ is the actual cost from the start node to the current node.", "isCorrect": false, "rationale": "This definition is incorrect; $h(n)$ is the heuristic, which estimates the cost to the goal, and $g(n)$ is the path cost from the start."},
+                    {"text": "$g(n)$ is the actual cost from the start node to the current node, and $h(n)$ is the estimated cost from the current node to the goal.", "isCorrect": true, "rationale": "This is the correct definition of the components of the A* evaluation function, where $g(n)$ is the path cost and $h(n)$ is the heuristic."},
+                    {"text": "$g(n)$ is the estimated cost from the start node to the goal, and $h(n)$ is the actual cost from the start node to the current node.", "isCorrect": false, "rationale": "This mixes up the roles of $g(n)$ and $h(n)$. $g(n)$ is the actual path cost from the start, not an estimate to the goal."},
+                    {"text": "$g(n)$ is the cost from the start node to the goal, and $h(n)$ is the cost from the current node to the goal.", "isCorrect": false, "rationale": "Both components are incorrect. $g(n)$ is the cost to the current node, not to the goal, and $h(n)$ is an estimated cost, not an actual one."}
+                ]
+            },
+            {
+                "question": "Which of the following statements about the A* algorithm is correct?",
+                "answerOptions": [
+                    {"text": "A* is complete even with an inadmissible heuristic.", "isCorrect": true, "rationale": "A* is complete if the branching factor is finite and the arc costs are greater than some small positive constant. The admissibility of the heuristic does not affect completeness, only optimality."},
+                    {"text": "A* has a higher time complexity than Breadth-First Search (BFS) for uniform cost graphs.", "isCorrect": false, "rationale": "A* with an appropriate heuristic can be much more efficient than BFS as it intelligently prunes the search space by prioritizing promising nodes."},
+                    {"text": "A* always expands fewer nodes than Dijkstra's algorithm.", "isCorrect": false, "rationale": "While a good heuristic often leads A* to expand fewer nodes, a poorly chosen heuristic (especially if it is non-admissible) might cause it to explore more states than Dijkstra's."},
+                    {"text": "A* is a brute-force search algorithm.", "isCorrect": false, "rationale": "A* is an informed search algorithm because it uses a heuristic to guide its search, making it more efficient than brute-force methods like BFS or DFS."}
+                ]
+            },
+            {
+                "question": "The heuristic function $h(n)$ for a search problem is said to be consistent if, for every node $n$ and every successor $n'$ of $n$ generated by any action, the triangle inequality holds. The inequality is given by:",
+                "answerOptions": [
+                    {"text": "$h(n) \\le cost(n, n') + h(n')$", "isCorrect": true, "rationale": "This is the correct definition of a consistent heuristic, which satisfies the triangle inequality and ensures that the estimated cost does not decrease faster than the actual path cost increases."},
+                    {"text": "$h(n) \\ge cost(n, n') + h(n')$", "isCorrect": false, "rationale": "This inequality is not correct; it implies that the heuristic can decrease significantly from a parent to a child, which violates the principle of consistency."},
+                    {"text": "$h(n') \\le cost(n, n') + h(n)$", "isCorrect": false, "rationale": "This is the same as the correct option, but written from the perspective of the successor node, which can be confusing."},
+                    {"text": "$h(n) = cost(n, n') + h(n')$", "isCorrect": false, "rationale": "This condition is too strict; it is not a requirement for consistency. Consistency is an inequality, not an equality."}
+                ]
+            },
+            {
+                "question": "For the 8-puzzle problem, which of the following is an admissible but not necessarily consistent heuristic?",
+                "answerOptions": [
+                    {"text": "Number of misplaced tiles", "isCorrect": true, "rationale": "This heuristic is admissible because it never overestimates the number of moves to the goal. However, it may not be consistent in all cases, as the heuristic value from one state to a successor can sometimes increase by more than the cost of the move."},
+                    {"text": "Manhattan distance", "isCorrect": false, "rationale": "The Manhattan distance heuristic is both admissible and consistent because the sum of distances cannot decrease by more than 1 for a single move."},
+                    {"text": "Squared Euclidean distance", "isCorrect": false, "rationale": "This heuristic is not admissible because it overestimates the cost, as the actual cost is the number of moves."},
+                    {"text": "Number of tiles that are in their correct positions", "isCorrect": false, "rationale": "This heuristic is not admissible because a higher value indicates a better state, but it does not provide a lower bound on the remaining path cost."}
+                ]
+            },
+            {
+                "question": "Consider a graph where all edge costs are positive. Which of the following search algorithms expands the same set of nodes as A* when its heuristic function $h(n)$ is always 0?",
+                "answerOptions": [
+                    {"text": "Greedy Best-First Search", "isCorrect": false, "rationale": "Greedy Best-First Search only considers the heuristic, so it would not be equivalent."},
+                    {"text": "Dijkstra's algorithm", "isCorrect": true, "rationale": "When $h(n)=0$, the A* evaluation function becomes $f(n) = g(n) + 0 = g(n)$. This is exactly the evaluation function used by Dijkstra's algorithm, which expands nodes in increasing order of their path cost from the start."},
+                    {"text": "Breadth-First Search (BFS)", "isCorrect": false, "rationale": "BFS is a special case of Uniform Cost Search (which is a special case of A*), but only for unweighted graphs (where all edge costs are 1). Dijkstra's is the more general case for weighted graphs with positive costs."},
+                    {"text": "Depth-First Search (DFS)", "isCorrect": false, "rationale": "DFS explores as far as possible along each branch before backtracking and does not use a cost function to guide its search."}
+                ]
+            },
+            {
+                "question": "Which of the following is a disadvantage of the A* algorithm?",
+                "answerOptions": [
+                    {"text": "It is not guaranteed to find the optimal path.", "isCorrect": false, "rationale": "A* is guaranteed to find the optimal path if the heuristic is admissible (or consistent on a graph)."},
+                    {"text": "It can have high memory consumption.", "isCorrect": true, "rationale": "A* keeps all generated nodes in memory (in the open and closed lists) to avoid re-expanding them, which can lead to significant memory usage for large state spaces."},
+                    {"text": "It is not complete.", "isCorrect": false, "rationale": "A* is complete, provided the branching factor is finite and edge costs are positive."},
+                    {"text": "It performs more computation per node than Dijkstra's.", "isCorrect": false, "rationale": "While A* may have slightly more overhead per node due to the heuristic calculation, its primary advantage is that it expands fewer nodes overall, often making it more efficient in practice."}
+                ]
+            },
+            {
+                "question": "In a graph, A* search places a node in the 'open' list. What does the open list contain?",
+                "answerOptions": [
+                    {"text": "All nodes that have already been visited and expanded.", "isCorrect": false, "rationale": "This describes the 'closed' list, which holds the nodes that have been fully explored and whose neighbors have been generated."},
+                    {"text": "All nodes that have been generated but have not yet been expanded.", "isCorrect": true, "rationale": "The open list, also known as the fringe or priority queue, contains the nodes that have been discovered but are yet to be evaluated for expansion."},
+                    {"text": "Only the nodes on the path from the start to the current node.", "isCorrect": false, "rationale": "This would only describe the current path being considered, not the set of potential next nodes to explore."},
+                    {"text": "The path from the start node to the goal node.", "isCorrect": false, "rationale": "The open list does not store the final path; it stores potential nodes to explore to find the path."}
+                ]
+            },
+            {
+                "question": "Given two admissible heuristics, $h_1$ and $h_2$, such that for every node $n$, $h_2(n) \\ge h_1(n)$. Which of the following statements is true regarding A* search using these heuristics?",
+                "answerOptions": [
+                    {"text": "A* with $h_2$ is guaranteed to expand fewer or an equal number of nodes than A* with $h_1$.", "isCorrect": true, "rationale": "A more informed (larger) admissible heuristic guides the search more directly towards the goal, leading to fewer expanded nodes, on average."},
+                    {"text": "A* with $h_2$ is less efficient than A* with $h_1$.", "isCorrect": false, "rationale": "A more informed heuristic is generally more efficient because it prunes the search space more effectively, assuming both are admissible."},
+                    {"text": "A* with $h_1$ will always find a better solution than A* with $h_2$.", "isCorrect": false, "rationale": "If both heuristics are admissible, A* is guaranteed to find the optimal solution in both cases. The quality of the solution does not change."},
+                    {"text": "The number of expanded nodes is independent of the heuristic.", "isCorrect": false, "rationale": "This statement is incorrect; the quality of the heuristic directly impacts the number of nodes expanded by A*."}
+                ]
+            },
+            {
+                "question": "The A* algorithm is an example of a(n) ___________ search algorithm.",
+                "answerOptions": [
+                    {"text": "uninformed", "isCorrect": false, "rationale": "An uninformed search does not use a heuristic to guide its search, unlike A*."},
+                    {"text": "brute-force", "isCorrect": false, "rationale": "Brute-force algorithms explore all possible paths without using any information to guide them, which A* does not."},
+                    {"text": "informed", "isCorrect": true, "rationale": "A* is an informed search algorithm because it uses a heuristic function, $h(n)$, to estimate the cost to the goal, thereby guiding the search process."},
+                    {"text": "randomized", "isCorrect": false, "rationale": "A* is a deterministic algorithm; its behavior is not based on randomness."}
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionNumberElem = document.getElementById('currentQuestionNumber');
+        const questionTextElem = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const checkButton = document.getElementById('checkButton');
+        const rationaleTextElem = document.getElementById('rationaleText');
+        const quizContentElem = document.getElementById('quizContent');
+        const quizResultElem = document.getElementById('quizResult');
+        const scoreContainer = document.querySelector('.score-container');
+
+        // Function to render LaTeX-like text
+        function formatText(text) {
+            return text.replace(/\$(.*?)\$/g, '<span class="latex">$$$1</span>');
+        }
+
+        // Function to load the current question
+        function loadQuestion() {
+            answered = false;
+            rationaleTextElem.style.display = 'none';
+            checkButton.textContent = 'Check Answer';
+            checkButton.style.backgroundColor = '#007bff';
+            checkButton.classList.add('check-btn');
+            checkButton.classList.remove('next-btn');
+
+            const currentQuizData = quizData[currentQuestionIndex];
+            
+            questionNumberElem.textContent = currentQuestionIndex + 1;
+            questionTextElem.innerHTML = formatText(currentQuizData.question);
+            optionsContainer.innerHTML = '';
+
+            currentQuizData.answerOptions.forEach((option, index) => {
+                const radioInput = document.createElement('input');
+                radioInput.type = 'radio';
+                radioInput.id = `option${index}`;
+                radioInput.name = 'answer';
+                radioInput.value = option.isCorrect;
+
+                const label = document.createElement('label');
+                label.htmlFor = `option${index}`;
+                label.classList.add('option-label');
+                label.innerHTML = formatText(option.text);
+
+                optionsContainer.appendChild(radioInput);
+                optionsContainer.appendChild(label);
+            });
+        }
+
+        // Function to check the selected answer
+        function checkAnswer() {
+            if (answered) return;
+
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) {
+                alert('Please select an option!');
+                return;
+            }
+
+            answered = true;
+            const isCorrect = selectedOption.value === 'true';
+            const selectedLabel = selectedOption.nextElementSibling;
+            
+            const currentQuizData = quizData[currentQuestionIndex];
+            const correctOptionData = currentQuizData.answerOptions.find(option => option.isCorrect);
+
+            if (isCorrect) {
+                score++;
+                selectedLabel.classList.add('correct');
+            } else {
+                selectedLabel.classList.add('incorrect');
+                const correctLabel = document.querySelector(`input[value="true"]`).nextElementSibling;
+                correctLabel.classList.add('correct');
+            }
+
+            rationaleTextElem.innerHTML = formatText(correctOptionData.rationale);
+            rationaleTextElem.style.display = 'block';
+
+            checkButton.textContent = 'Next Question';
+            checkButton.style.backgroundColor = '#6c757d';
+            checkButton.classList.remove('check-btn');
+            checkButton.classList.add('next-btn');
+        }
+
+        // Function to move to the next question or show results
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        // Function to display the final result
+        function showResult() {
+            quizContentElem.style.display = 'none';
+            quizResultElem.style.display = 'block';
+            scoreContainer.innerHTML = `You scored ${score} out of ${quizData.length}!`;
+        }
+        
+        // Event listener for the button
+        checkButton.addEventListener('click', () => {
+            if (!answered) {
+                checkAnswer();
+            } else {
+                nextQuestion();
+            }
+        });
+
+        // Initial load of the first question
+        loadQuestion();
+    </script>
+
+</body>
+</html>
+
